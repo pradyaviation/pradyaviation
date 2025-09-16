@@ -1,0 +1,142 @@
+/* Footer specific styles and animations */
+
+/* Smooth slide-in animation for mobile sections */
+@keyframes slide-in-from-top {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-in {
+  animation-fill-mode: both;
+}
+
+.slide-in-from-top-2 {
+  animation: slide-in-from-top 0.3s ease-out;
+}
+
+/* Enhanced hover effects for footer elements */
+.footer-social-icon {
+  position: relative;
+  overflow: hidden;
+}
+
+.footer-social-icon::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+  transition: left 0.5s;
+}
+
+.footer-social-icon:hover::before {
+  left: 100%;
+}
+
+/* Pulsing effect for online status indicator */
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+.animate-pulse {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* Gradient text effect */
+.gradient-text {
+  background: linear-gradient(45deg, #3b82f6, #06b6d4, #8b5cf6);
+  background-size: 300% 300%;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: gradient-shift 3s ease infinite;
+}
+
+@keyframes gradient-shift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* Enhanced focus states for accessibility */
+.footer-link:focus {
+  outline: 2px solid #3b82f6;
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* Improved mobile touch targets */
+@media (max-width: 768px) {
+  .footer-mobile-touch-target {
+    min-height: 48px;
+    min-width: 48px;
+  }
+}
+
+/* Loading shimmer effect for logo fallback */
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+.shimmer {
+  position: relative;
+  overflow: hidden;
+}
+
+.shimmer::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+  animation: shimmer 1.5s infinite;
+}
+
+/* Custom scrollbar for mobile menu */
+.footer-scroll::-webkit-scrollbar {
+  width: 6px;
+}
+
+.footer-scroll::-webkit-scrollbar-track {
+  background: rgba(39, 39, 42, 0.5);
+}
+
+.footer-scroll::-webkit-scrollbar-thumb {
+  background: rgba(113, 113, 122, 0.5);
+  border-radius: 3px;
+}
+
+.footer-scroll::-webkit-scrollbar-thumb:hover {
+  background: rgba(113, 113, 122, 0.8);
+}
+
+/* Safe area padding for mobile devices */
+.safe-area-padding {
+  padding-bottom: env(safe-area-inset-bottom);
+}
