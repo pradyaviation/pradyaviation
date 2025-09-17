@@ -23,7 +23,6 @@ const Home = () => {
   
   // About page refs
   const aboutHeaderRef = useRef<HTMLDivElement>(null);
-  const teamSectionRef = useRef<HTMLDivElement>(null);
   const believeRef = useRef<HTMLDivElement>(null);
   
   // Mission page refs
@@ -183,49 +182,6 @@ const Home = () => {
             opacity: 1,
             duration: 1.2,
             stagger: 0.3,
-            ease: "power2.out"
-          });
-        }
-      });
-    }
-
-    // Team section animation on scroll
-    if (teamSectionRef.current) {
-      const teamTitle = teamSectionRef.current.querySelector('.team-title');
-      const teamLine = teamSectionRef.current.querySelector('.team-line');
-      const teamCircles = teamSectionRef.current.querySelectorAll('.team-circle');
-
-      gsap.set([teamTitle, teamLine, ...teamCircles], {
-        y: 40,
-        opacity: 0
-      });
-
-      ScrollTrigger.create({
-        trigger: teamSectionRef.current,
-        start: 'top 80%',
-        end: 'bottom 20%',
-        onEnter: () => {
-          gsap.to(teamTitle, {
-            y: 0,
-            opacity: 1,
-            duration: 0.6,
-            ease: "power2.out"
-          });
-
-          gsap.to(teamLine, {
-            y: 0,
-            opacity: 1,
-            duration: 0.4,
-            delay: 0.2,
-            ease: "power2.out"
-          });
-
-          gsap.to(teamCircles, {
-            y: 0,
-            opacity: 1,
-            duration: 0.8,
-            stagger: 0.15,
-            delay: 0.4,
             ease: "power2.out"
           });
         }
@@ -540,20 +496,21 @@ const Home = () => {
         }
 
         /* Mobile-specific adjustments for the ABOUT section to expand the background upward
-           and move the text content downward for better balance and spacing. */
+           and move the text content upward for better positioning. */
         @media (max-width: 639px) {
           /* Pull the background image up on mobile so the wireframe sits higher
              and removes the empty gap between the hero CTA and the image. */
           #about {
-            background-position: 50% 12% !important; /* bring focal point higher */
+            background-position: 50% 4% !important; /* bring image focal point even higher */
             background-size: 150% !important;
             min-height: 100vh !important; /* reduce extra vertical space */
             background-repeat: no-repeat !important;
+            padding-bottom: 0 !important; /* remove bottom padding */
           }
 
-          /* Adjust header location to sit correctly under the wireframe */
+          /* Adjust header location to sit higher on mobile */
           #about .about-header {
-            top: 48% !important;
+            top: 35% !important; /* moved up from 48% to 35% */
             left: 4% !important;
             transform: translateY(-4%) !important;
             max-width: calc(100% - 3rem) !important;
@@ -599,15 +556,15 @@ const Home = () => {
 
         /* Extra tuning for very small screens to avoid the wireframe being cropped at the very top */
         @media (max-width: 480px) {
-          /* Very small screens: pull image down slightly more but ensure header remains readable */
+          /* Very small screens: pull image up and position content higher */
           #about {
-            background-position: 50% 16% !important; /* bring focal point higher on very small screens */
+            background-position: 50% 6% !important; /* bring image focal point higher on very small screens */
             background-size: 160% !important;
             min-height: 110vh !important;
           }
 
           #about .about-header {
-            top: 52% !important;
+            top: 40% !important; /* moved up from 52% to 40% */
             left: 4% !important;
             transform: translateY(-6%) !important;
           }
@@ -617,11 +574,32 @@ const Home = () => {
           }
         }
 
+        /* Mobile-specific adjustments for the What We Believe section */
+        @media (max-width: 639px) {
+          #beliefs {
+            padding-top: 0 !important; /* remove top padding completely */
+            padding-bottom: 1rem !important; /* reduce bottom padding */
+          }
+          
+          #beliefs .min-h-screen {
+            min-height: 80vh !important; /* reduce minimum height */
+            padding-top: 0 !important; /* remove inner top padding */
+            padding-bottom: 1rem !important;
+          }
+          
+          #beliefs .text-center {
+            margin-bottom: 3rem !important; /* reduce margin below title */
+          }
+          
+          #beliefs .believe-card {
+            margin-bottom: 1.5rem !important; /* add space between cards on mobile */
+          }
+        }
+
         /* Apply the condensed display font to large headings */
         #content h2,
         #about h1,
-        .mission-title,
-        .team-title {
+        .mission-title {
           /* Use project D-DIN when available; fall back to Inter/system fonts */
           font-family: 'D-DIN', Inter, system-ui, -apple-system, sans-serif !important;
           letter-spacing: 0.02em !important;
@@ -751,31 +729,26 @@ const Home = () => {
       {/* Upcoming Launches Section - Only visible on mobile */}
       <UpcomingLaunchesSection />
 
-      {/* Content Section - Revealed on Scroll */}
-      <section 
-        id="content" 
-        // Third section (traffic video). Remove any residual gap from previous hero by pulling up slightly more on mobile.
-        className="relative min-h-screen h-screen md:min-h-screen flex items-end justify-end overflow-hidden bg-black mobile-portrait-section pt-0 sm:pt-0 -mt-4 sm:mt-0"
-        style={{
-          // Shorten the content section on mobile so the CTA sits closer to the next section
-          height: typeof window !== 'undefined' && window.innerWidth <= 639 ? '62dvh' : undefined,
-          minHeight: typeof window !== 'undefined' && window.innerWidth <= 639 ? '62vh' : undefined,
-        }}
+      {/* Content Section - Adjusted to remove artificial gap below */}
+      <section
+        id="content"
+        // Allow natural height on mobile (no forced 62vh) and remove negative margins that created jumpy stacking.
+        className="relative min-h-[80vh] sm:min-h-screen flex items-end justify-end overflow-hidden bg-black mobile-portrait-section pt-0 sm:pt-0"
       >
         {/* Background Video */}
-        <video 
-          className="absolute inset-0 w-full h-full md:object-cover mobile-portrait-video"
+        <video
+          className="absolute inset-0 w-full h-full object-cover mobile-portrait-video"
           style={{
             objectFit: 'cover',
             objectPosition: 'center center',
             width: '100%',
-            height: window.innerWidth <= 500 ? '100vh' : '100%',
-            minHeight: window.innerWidth <= 500 ? '100vh' : '100vh',
+            // Let the parent control height; ensure on very small devices it still fills nicely
+            minHeight: '100%',
             minWidth: '100vw'
           }}
-          autoPlay 
-          loop 
-          muted 
+          autoPlay
+          loop
+          muted
           playsInline
         >
           <source 
@@ -1023,10 +996,10 @@ const Home = () => {
       )}
 
       {/* ABOUT SECTION - Meet AIRAVATH */}
-      <section 
+      <section
         id="about"
-        // Pull ABOUT section upward on mobile to eliminate black space between sections.
-        className="relative min-h-screen bg-black -mt-28 sm:mt-0"
+        // Removed negative margin; previous -mt-28 caused layout shifts and inconsistent gaps.
+        className="relative h-[70vh] md:h-[80vh] bg-black"
         style={{
           backgroundImage: isMobile ? `url('https://i.ibb.co/n8q646qF/IMG-20250903-112100.webp')` : `url('https://i.ibb.co/n8zMKHsB/IMG-20250719-140017.webp')`,
           backgroundSize: isMobile ? '250% auto' : 'cover',
@@ -1049,22 +1022,22 @@ const Home = () => {
             <p className="text-white uppercase leading-relaxed mb-4" style={{
               fontSize: 'clamp(0.75rem, 2.5vw, 1rem)',
             }}>
-              We're a visionary team reimagining urban mobility.
+              AIRAVATH BLENDS HERITAGE AND VISION. INSPIRED BY THE MYTHICAL WHITE ELEPHANT, WE STAND FOR STRENGTH, INNOVATION, SUSTAINABILITY, AND GLOBAL CONNECTIVITY — REDEFINING MODERN AVIATION.
             </p>
             <p className="text-white uppercase leading-relaxed mb-6" style={{
               fontSize: 'clamp(0.75rem, 2.5vw, 1rem)',
             }}>
-              Starting with medical air taxis, we're building luxurious, high-tech aerial travel for tomorrow's cities.
+              
             </p>
           </div>
           
           {/* Desktop text (original) */}
           <div className="hidden sm:block">
             <p className="text-white text-base uppercase leading-relaxed mb-6">
-              WE ARE A VISIONARY TEAM OF AVIATION EXPERTS AND TECHNOLOGY INNOVATORS UNITED BY A COMMON GOAL: REVOLUTIONIZING URBAN MOBILITY THROUGH THE SKIES.
+              AT AIRAVATH, OUR NAME UNITES HERITAGE AND VISION. INSPIRED BY THE MYTHICAL WHITE ELEPHANT OF LORD INDRA, IT SYMBOLIZES STRENGTH, GUARDIANSHIP, AND CONNECTION — PRINCIPLES WE BRING TO MODERN AVIATION. STRENGTH & RELIABILITY: Trust, protection, and safety in the skies. INNOVATION: AI-driven solutions shaping the future of aviation. SUSTAINABILITY: Eco-friendly, safe, and responsible aerospace. GLOBAL CONNECTIVITY: Bridging people, places, and possibilities through flight
             </p>
             <p className="text-white text-base uppercase leading-relaxed mb-8">
-              TODAY, WE'RE PIONEERING THE DEVELOPMENT OF LUXURIOUS, MEDICALLY-EQUIPPED AIR TAXIS THAT WILL TRANSFORM HOW PEOPLE MOVE THROUGH CITIES, STARTING WITH EMERGENCY MEDICAL TRANSPORT AND EXPANDING TO EXECUTIVE TRAVEL SOLUTIONS.
+              
             </p>
           </div>
           
@@ -1105,168 +1078,14 @@ const Home = () => {
         </div>
       </section>
 
-      {/* ABOUT SECTION - Connect Our Team */}
-      <section 
-        id="team"
-        className="relative min-h-screen bg-black"
-      >
-        <div ref={teamSectionRef} className="h-screen bg-black relative overflow-hidden flex items-center justify-center py-4 md:py-0">
-          <div className="text-center max-w-6xl mx-auto px-8">
-            {/* Section Title */}
-            <h2 className="team-title text-white text-4xl font-bold mb-4 uppercase tracking-wider">
-              Connect Our Team
-            </h2>
-            {/* Line under title */}
-            <div className="team-line w-32 h-0.5 bg-white mx-auto mb-16"></div>
-            
-            {/* Team Circles */}
-            <div className="flex overflow-x-auto gap-8 md:gap-20 px-4 md:px-0 pb-4 md:pb-0 scrollbar-hide md:justify-center md:overflow-visible">
-              
-              {/* Team Member 1 */}
-              <div className="team-circle group relative cursor-pointer flex-shrink-0">
-                <div className="relative w-48 h-48 md:w-80 md:h-80">
-                  <div className="w-full h-full rounded-full border-2 border-white/30 overflow-hidden transition-all duration-500 group-hover:border-white group-hover:shadow-2xl group-hover:shadow-white/20 group-hover:scale-105 relative">
-                    <img 
-                      src="https://i.ibb.co/1fZs5G5t/Screenshot-2025-08-17-16-54-20-61-99c04817c0de5652397fc8b56c3b3817.webp" 
-                      alt="CEO - Sarah Johnson" 
-                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                    />
-                    
-                    {/* Mobile - Description only overlay */}
-                    <div className="md:hidden absolute inset-0 bg-black/70 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-500 transform scale-95 group-hover:scale-100 p-4 text-center">
-                      <p className="text-white/90 text-xs leading-relaxed">
-                        Aviation expert with 15+ years in aerospace engineering. Former Boeing engineer leading AIRAVATH's vision for urban air mobility.
-                      </p>
-                    </div>
-                    
-                    {/* Desktop - Full overlay with name, role, and description */}
-                    <div className="hidden md:flex absolute inset-0 bg-black/70 rounded-full flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-500 transform scale-95 group-hover:scale-100 p-8 text-center">
-                      <h3 className="text-white text-2xl font-bold mb-3 uppercase tracking-wide">
-                        XXXXXXXXX
-                      </h3>
-                      <p className="text-white/80 text-sm mb-4 uppercase tracking-wider font-semibold">
-                        XXXXXXXXX
-                      </p>
-                      <p className="text-white/90 text-sm leading-relaxed">
-                        Aviation expert with 15+ years in aerospace engineering. Former Boeing engineer leading AIRAVATH's vision for urban air mobility.
-                      </p>
-                    </div>
-                  </div>
-                  <div className="absolute inset-0 rounded-full bg-white/0 group-hover:bg-white/5 transition-all duration-500"></div>
-                </div>
-                
-                {/* Mobile - Name and Role under the circle */}
-                <div className="mt-4 text-center md:hidden">
-                  <h3 className="text-white text-lg font-bold mb-1 uppercase tracking-wide">
-                    XXXXXXXXXX
-                  </h3>
-                  <p className="text-white/80 text-sm uppercase tracking-wider font-semibold">
-                    XXXXXXXXXX
-                  </p>
-                </div>
-              </div>
-
-              {/* Team Member 2 */}
-              <div className="team-circle group relative cursor-pointer flex-shrink-0">
-                <div className="relative w-48 h-48 md:w-80 md:h-80">
-                  <div className="w-full h-full rounded-full border-2 border-white/30 overflow-hidden transition-all duration-500 group-hover:border-white group-hover:shadow-2xl group-hover:shadow-white/20 group-hover:scale-105 relative">
-                    <img 
-                      src="https://i.ibb.co/1fZs5G5t/Screenshot-2025-08-17-16-54-20-61-99c04817c0de5652397fc8b56c3b3817.webp" 
-                      alt="CTO - Michael Chen" 
-                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                    />
-                    
-                    {/* Mobile - Description only overlay */}
-                    <div className="md:hidden absolute inset-0 bg-black/70 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-500 transform scale-95 group-hover:scale-100 p-4 text-center">
-                      <p className="text-white/90 text-xs leading-relaxed">
-                        Technology innovator specializing in autonomous flight systems and AI integration. Former Tesla Autopilot team member.
-                      </p>
-                    </div>
-                    
-                    {/* Desktop - Full overlay with name, role, and description */}
-                    <div className="hidden md:flex absolute inset-0 bg-black/70 rounded-full flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-500 transform scale-95 group-hover:scale-100 p-8 text-center">
-                      <h3 className="text-white text-2xl font-bold mb-3 uppercase tracking-wide">
-                        XXXXXXXXXX
-                      </h3>
-                      <p className="text-white/80 text-sm mb-4 uppercase tracking-wider font-semibold">
-                        XXXXXXXXXX
-                      </p>
-                      <p className="text-white/90 text-sm leading-relaxed">
-                        Technology innovator specializing in autonomous flight systems and AI integration. Former Tesla Autopilot team member.
-                      </p>
-                    </div>
-                  </div>
-                  <div className="absolute inset-0 rounded-full bg-white/0 group-hover:bg-white/5 transition-all duration-500"></div>
-                </div>
-                
-                {/* Mobile - Name and Role under the circle */}
-                <div className="mt-4 text-center md:hidden">
-                  <h3 className="text-white text-lg font-bold mb-1 uppercase tracking-wide">
-                    XXXXXXXXX
-                  </h3>
-                  <p className="text-white/80 text-sm uppercase tracking-wider font-semibold">
-                    XXXXXXXXXX
-                  </p>
-                </div>
-              </div>
-
-              {/* Team Member 3 */}
-              <div className="team-circle group relative cursor-pointer flex-shrink-0">
-                <div className="relative w-48 h-48 md:w-80 md:h-80">
-                  <div className="w-full h-full rounded-full border-2 border-white/30 overflow-hidden transition-all duration-500 group-hover:border-white group-hover:shadow-2xl group-hover:shadow-white/20 group-hover:scale-105 relative">
-                    <img 
-                      src="https://i.ibb.co/1fZs5G5t/Screenshot-2025-08-17-16-54-20-61-99c04817c0de5652397fc8b56c3b3817.webp" 
-                      alt="CMO - Dr. Lisa Rodriguez" 
-                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                    />
-                    
-                    {/* Mobile - Description only overlay */}
-                    <div className="md:hidden absolute inset-0 bg-black/70 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-500 transform scale-95 group-hover:scale-100 p-4 text-center">
-                      <p className="text-white/90 text-xs leading-relaxed">
-                        Emergency medicine specialist with 20+ years experience. Leading the integration of medical equipment in AIRAVATH aircraft.
-                      </p>
-                    </div>
-                    
-                    {/* Desktop - Full overlay with name, role, and description */}
-                    <div className="hidden md:flex absolute inset-0 bg-black/70 rounded-full flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-500 transform scale-95 group-hover:scale-100 p-8 text-center">
-                      <h3 className="text-white text-2xl font-bold mb-3 uppercase tracking-wide">
-                        XXXXXXXXX
-                      </h3>
-                      <p className="text-white/80 text-sm mb-4 uppercase tracking-wider font-semibold">
-                        XXXXXXXXX
-                      </p>
-                      <p className="text-white/90 text-sm leading-relaxed">
-                        Emergency medicine specialist with 20+ years experience. Leading the integration of medical equipment in AIRAVATH aircraft.
-                      </p>
-                    </div>
-                  </div>
-                  <div className="absolute inset-0 rounded-full bg-white/0 group-hover:bg-white/5 transition-all duration-500"></div>
-                </div>
-                
-                {/* Mobile - Name and Role under the circle */}
-                <div className="mt-4 text-center md:hidden">
-                  <h3 className="text-white text-lg font-bold mb-1 uppercase tracking-wide">
-                    XXXXXXXX
-                  </h3>
-                  <p className="text-white/80 text-sm uppercase tracking-wider font-semibold">
-                    XXXXXXXX
-                  </p>
-                </div>
-              </div>
-
-            </div>
-          </div>
-        </div>
-      </section>
-
       {/* ABOUT SECTION - What We Believe */}
       <section 
         id="beliefs"
-        className="relative min-h-screen bg-black py-8 md:py-16 px-4"
+        className="relative min-h-screen bg-black py-2 md:py-4 px-4"
       >
-        <div ref={believeRef} className="min-h-screen bg-black py-8 md:py-16 px-4">
+        <div ref={believeRef} className="min-h-screen bg-black py-2 md:py-4 px-4">
           <div className="max-w-7xl mx-auto">
-            <div className="text-center mb-16">
+            <div className="text-center mb-8 md:mb-12">
               <h2 className="believe-title text-white text-4xl font-bold mb-4 uppercase tracking-wider">
                 What We Believe
               </h2>

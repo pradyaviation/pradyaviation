@@ -9,7 +9,6 @@ gsap.registerPlugin(ScrollTrigger);
 
 const About = () => {
   const headerRef = useRef<HTMLDivElement>(null);
-  const teamSectionRef = useRef<HTMLDivElement>(null);
   const believeRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
 
@@ -35,54 +34,6 @@ const About = () => {
         stagger: 0.3,
         ease: "power2.out",
         delay: 0.5
-      });
-    }
-
-    // Team section animation on scroll
-    if (teamSectionRef.current) {
-      const teamTitle = teamSectionRef.current.querySelector('.team-title');
-      const teamLine = teamSectionRef.current.querySelector('.team-line');
-      const teamCircles = teamSectionRef.current.querySelectorAll('.team-circle');
-
-      // Set initial state for team section
-      gsap.set([teamTitle, teamLine, ...teamCircles], {
-        y: 40,
-        opacity: 0
-      });
-
-      // Create scroll trigger animation
-      ScrollTrigger.create({
-        trigger: teamSectionRef.current,
-        start: 'top 80%',
-        end: 'bottom 20%',
-        onEnter: () => {
-          // Animate title first
-          gsap.to(teamTitle, {
-            y: 0,
-            opacity: 1,
-            duration: 0.6,
-            ease: "power2.out"
-          });
-
-          // Then animate line
-          gsap.to(teamLine, {
-            y: 0,
-            opacity: 1,
-            duration: 0.4,
-            delay: 0.2,
-            ease: "power2.out"
-          });
-
-          // Finally animate circles with stagger
-          gsap.to(teamCircles, {
-            y: 0,
-            opacity: 1,
-            duration: 0.8,
-            stagger: 0.15,
-            delay: 0.4,
-            ease: "power2.out"
-          });
-        }
       });
     }
 
@@ -147,10 +98,18 @@ const About = () => {
         </h1>
   <div className="w-14 md:w-24 h-0.5 bg-white mb-3 md:mb-4"></div>
   <p className="text-white text-[11px] sm:text-xs md:text-base uppercase leading-relaxed mb-2 md:mb-6 tracking-wide">
-          WE ARE A VISIONARY TEAM OF AVIATION EXPERTS AND TECHNOLOGY INNOVATORS UNITED BY A COMMON GOAL: REVOLUTIONIZING URBAN MOBILITY THROUGH THE SKIES.
+          A VISIONARY TEAM REVOLUTIONIZING URBAN MOBILITY THROUGH THE SKIES WITH LUXURIOUS, MEDICALLY-EQUIPPED AIR TAXIS — FROM EMERGENCY CARE TO EXECUTIVE TRAVEL.
         </p>
   <p className="text-white text-[11px] sm:text-xs md:text-base uppercase leading-relaxed mb-4 md:mb-8 tracking-wide">
-          TODAY, WE'RE PIONEERING THE DEVELOPMENT OF LUXURIOUS, MEDICALLY-EQUIPPED AIR TAXIS THAT WILL TRANSFORM HOW PEOPLE MOVE THROUGH CITIES, STARTING WITH EMERGENCY MEDICAL TRANSPORT AND EXPANDING TO EXECUTIVE TRAVEL SOLUTIONS.
+         AT AIRAVATH, OUR NAME UNITES HERITAGE AND VISION. INSPIRED BY THE MYTHICAL WHITE ELEPHANT OF LORD INDRA, IT SYMBOLIZES STRENGTH, GUARDIANSHIP, AND CONNECTION — PRINCIPLES WE BRING TO MODERN AVIATION.
+
+STRENGTH & RELIABILITY: Trust, protection, and safety in the skies.
+
+INNOVATION: AI-driven solutions shaping the future of aviation.
+
+SUSTAINABILITY: Eco-friendly, safe, and responsible aerospace.
+
+GLOBAL CONNECTIVITY: Bridging people, places, and possibilities through flight. 
         </p>
         
         {/* Buttons */}
@@ -195,122 +154,6 @@ const About = () => {
           alt="Futuristic Room" 
       className="w-full h-full object-cover scale-105 md:scale-100 transition-transform duration-300"
         />
-      </div>
-
-      {/* Section 2 - Connect Our Team */}
-      <div ref={teamSectionRef} className="h-screen bg-black relative overflow-hidden flex items-center justify-center">
-        <div className="text-center max-w-6xl mx-auto px-8">
-          {/* Section Title */}
-          <h2 className="team-title text-white text-4xl font-bold mb-4 uppercase tracking-wider">
-            Connect Our Team
-          </h2>
-          {/* Line under title */}
-          <div className="team-line w-32 h-0.5 bg-white mx-auto mb-16"></div>
-          
-          {/* Team Circles */}
-          <div className="flex overflow-x-auto gap-8 md:gap-20 px-4 md:px-0 pb-4 md:pb-0 scrollbar-hide md:justify-center md:overflow-visible">
-            
-            {/* Team Member 1 */}
-            <div className="team-circle group relative cursor-pointer flex-shrink-0">
-              <div className="relative w-48 h-48 md:w-80 md:h-80 mx-auto">
-                {/* Circle with border animation */}
-                <div className="w-full h-full rounded-full border-2 border-white/30 overflow-hidden transition-all duration-500 group-hover:border-white group-hover:shadow-2xl group-hover:shadow-white/20 group-hover:scale-105 relative">
-                  <img 
-                    src="https://i.ibb.co/1fZs5G5t/Screenshot-2025-08-17-16-54-20-61-99c04817c0de5652397fc8b56c3b3817.webp" 
-                    alt="CEO - Sarah Johnson" 
-                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                  />
-                  
-                  {/* Description overlay that appears on hover */}
-                  <div className="absolute inset-0 bg-black/70 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-500 transform scale-95 group-hover:scale-100 p-4 md:p-8 text-center">
-                    <p className="text-white/90 text-xs md:text-sm leading-relaxed">
-                      Aviation expert with 15+ years in aerospace engineering. Former Boeing engineer leading AIRAVATH's vision for urban air mobility.
-                    </p>
-                  </div>
-                </div>
-                {/* Glow effect */}
-                <div className="absolute inset-0 rounded-full bg-white/0 group-hover:bg-white/5 transition-all duration-500"></div>
-              </div>
-              
-              {/* Name and Role under the circle */}
-              <div className="mt-4 text-center">
-                <h3 className="text-white text-lg md:text-xl font-bold mb-1 uppercase tracking-wide">
-                  XXXXXXXXX
-                </h3>
-                <p className="text-white/80 text-sm md:text-base uppercase tracking-wider font-semibold">
-                  XXXXXXXXXX
-                </p>
-              </div>
-            </div>
-
-            {/* Team Member 2 */}
-            <div className="team-circle group relative cursor-pointer flex-shrink-0">
-              <div className="relative w-48 h-48 md:w-80 md:h-80 mx-auto">
-                {/* Circle with border animation */}
-                <div className="w-full h-full rounded-full border-2 border-white/30 overflow-hidden transition-all duration-500 group-hover:border-white group-hover:shadow-2xl group-hover:shadow-white/20 group-hover:scale-105 relative">
-                  <img 
-                    src="https://i.ibb.co/1fZs5G5t/Screenshot-2025-08-17-16-54-20-61-99c04817c0de5652397fc8b56c3b3817.webp" 
-                    alt="CTO - Michael Chen" 
-                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                  />
-                  
-                  {/* Description overlay that appears on hover */}
-                  <div className="absolute inset-0 bg-black/70 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-500 transform scale-95 group-hover:scale-100 p-4 md:p-8 text-center">
-                    <p className="text-white/90 text-xs md:text-sm leading-relaxed">
-                      Technology innovator specializing in autonomous flight systems and AI integration. Former Tesla Autopilot team member.
-                    </p>
-                  </div>
-                </div>
-                {/* Glow effect */}
-                <div className="absolute inset-0 rounded-full bg-white/0 group-hover:bg-white/5 transition-all duration-500"></div>
-              </div>
-              
-              {/* Name and Role under the circle */}
-              <div className="mt-4 text-center">
-                <h3 className="text-white text-lg md:text-xl font-bold mb-1 uppercase tracking-wide">
-                  XXXXXXXXXX
-                </h3>
-                <p className="text-white/80 text-sm md:text-base uppercase tracking-wider font-semibold">
-                  XXXXXXXXXX
-                </p>
-              </div>
-            </div>
-
-            {/* Team Member 3 */}
-            <div className="team-circle group relative cursor-pointer flex-shrink-0">
-              <div className="relative w-48 h-48 md:w-80 md:h-80 mx-auto">
-                {/* Circle with border animation */}
-                <div className="w-full h-full rounded-full border-2 border-white/30 overflow-hidden transition-all duration-500 group-hover:border-white group-hover:shadow-2xl group-hover:shadow-white/20 group-hover:scale-105 relative">
-                  <img 
-                    src="https://i.ibb.co/1fZs5G5t/Screenshot-2025-08-17-16-54-20-61-99c04817c0de5652397fc8b56c3b3817.webp" 
-                    alt="CMO - Dr. Lisa Rodriguez" 
-                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                  />
-                  
-                  {/* Description overlay that appears on hover */}
-                  <div className="absolute inset-0 bg-black/70 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-500 transform scale-95 group-hover:scale-100 p-4 md:p-8 text-center">
-                    <p className="text-white/90 text-xs md:text-sm leading-relaxed">
-                      Emergency medicine specialist with 20+ years experience. Leading the integration of medical equipment in AIRAVATH aircraft.
-                    </p>
-                  </div>
-                </div>
-                {/* Glow effect */}
-                <div className="absolute inset-0 rounded-full bg-white/0 group-hover:bg-white/5 transition-all duration-500"></div>
-              </div>
-              
-              {/* Name and Role under the circle */}
-              <div className="mt-4 text-center">
-                <h3 className="text-white text-lg md:text-xl font-bold mb-1 uppercase tracking-wide">
-                  XXXXXXXXXX
-                </h3>
-                <p className="text-white/80 text-sm md:text-base uppercase tracking-wider font-semibold">
-                  XXXXXXXXXX
-                </p>
-              </div>
-            </div>
-
-          </div>
-        </div>
       </div>
 
       {/* Section 3 - What We Believe */}

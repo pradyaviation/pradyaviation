@@ -75,7 +75,7 @@
   /* Ensure parent container fills viewport */
   .mobile-portrait-section {
     height: 100vh !important;
-    min-height: 100vh !important;
+    /* min-height: 70vh !important; */
     overflow: hidden !important;
   }
 }
@@ -353,11 +353,11 @@
 /* Landscape orientation on mobile */
 @media (max-height: 420px) and (orientation: landscape) {
   .min-h-screen {
-    min-height: 100vh !important;
+    min-height: 70vh !important;
   }
   
   .h-screen {
-    height: 100vh !important;
+    height: 80vh !important;
   }
   
   /* Reduce padding in landscape mode */
@@ -505,6 +505,8 @@
   body, html {
     margin: 0 !important;
     padding: 0 !important;
+    height: 100% !important;
+    overflow-x: hidden !important;
   }
   
   /* Remove any section gaps */
@@ -516,6 +518,37 @@
   
   /* Ensure full viewport coverage */
   .relative.overflow-hidden.bg-black {
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+  
+  /* Eliminate bottom gaps specifically */
+  .min-h-screen, .h-screen {
+    margin-bottom: 0 !important;
+    padding-bottom: 0 !important;
+  }
+  
+  /* Fix hero section bottom gap */
+  .hero-section, section[role="img"] {
+    margin-bottom: 0 !important;
+    padding-bottom: 0 !important;
+    height: 100vh !important;
+    height: 100dvh !important; /* Dynamic viewport height for mobile browsers */
+  }
+  
+  /* Ensure CTA buttons container doesn't create gap */
+  .hero-cta-container {
+    margin-bottom: 0 !important;
+    padding-bottom: env(safe-area-inset-bottom, 1rem) !important; /* Account for iPhone safe area */
+  }
+  
+  /* Force sections to stick together */
+  div[class*="relative"] {
+    margin-bottom: 0 !important;
+  }
+  
+  /* Remove default spacing from main app container */
+  #root, .App {
     margin: 0 !important;
     padding: 0 !important;
   }
@@ -550,5 +583,49 @@
     height: 100% !important;
     object-fit: cover !important;
     object-position: center center !important;
+  }
+}
+
+/* CRITICAL: Remove all bottom gaps on mobile */
+@media (max-width: 768px) {
+  /* Force full height and remove any bottom spacing */
+  * {
+    box-sizing: border-box !important;
+  }
+  
+  /* Eliminate viewport height calculation issues */
+  .h-screen {
+    height: 100vh !important;
+    height: 100dvh !important;
+  }
+  
+  .min-h-screen {
+    min-height: 100vh !important;
+    min-height: 100dvh !important;
+  }
+  
+  /* Remove bottom gaps from absolute positioned elements */
+  .absolute {
+    margin-bottom: 0 !important;
+  }
+  
+  /* Ensure no gap at bottom of viewport */
+  body {
+    position: relative !important;
+    min-height: 100vh !important;
+    min-height: 100dvh !important;
+  }
+  
+  /* Remove any default margins from all elements */
+  * {
+    margin-bottom: 0 !important;
+  }
+  
+  /* Specific fix for hero sections with CTA buttons */
+  section:first-of-type {
+    height: 100vh !important;
+    height: 100dvh !important;
+    margin: 0 !important;
+    padding: 0 !important;
   }
 }

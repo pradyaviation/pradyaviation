@@ -8,12 +8,13 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { toast } from '@/hooks/use-toast';
 import { useOptimizedMedia } from '@/hooks/use-optimized-media';
+import { ArrowRight, ChevronDown, Calendar, Plane, Building, MapPin, Globe, Phone, Mail, Send } from 'lucide-react';
 
 // Import refactored components
 import HeroSection from '@/components/HeroSection';
-import { ContentSection } from '@/components/ContentSection';
+import ContentSection from '@/components/ContentSection';
 import { FeaturesSection } from '@/components/FeaturesSection';
-import { ContactFormSection } from '@/components/ContactFormSection';
+import ContactFormSection from '@/components/ContactFormSection';
 
 // Import styles
 import '@/styles/responsive.css';
@@ -37,6 +38,9 @@ const Home = () => {
   const teamSectionRef = useRef<HTMLDivElement>(null);
   const believeRef = useRef<HTMLDivElement>(null);
   const missionContentRef = useRef<HTMLDivElement>(null);
+  const comparisonRef = useRef<HTMLDivElement>(null);
+  const contactHeaderRef = useRef<HTMLDivElement>(null);
+  const objectivesRef = useRef<HTMLDivElement>(null);
 
   // Contact form state
   const [formData, setFormData] = useState({
