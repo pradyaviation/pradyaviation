@@ -29,9 +29,9 @@ Comprehensive footer design for both mobile and desktop screens with all request
 - ✅ All routes properly configured in App.tsx
 
 ### 5. **Contact Information**
-- ✅ Email: info@AIRAVATH.com (clickable mailto link)
-- ✅ Phone: +1 (555) AIRAVATH (clickable tel link)
-- ✅ Address: Innovation District, Tech Hub Center, Silicon Valley, CA
+- ✅ Email: pradyaviation@gmail.com (clickable mailto link)
+- ✅ Phone: +91 91210 55512 (clickable tel link)
+- ✅ Address: Launching primarily in Andhra Pradesh & Telangana, India
 - ✅ Contact CTA button linking to contact page
 
 ## Additional Features

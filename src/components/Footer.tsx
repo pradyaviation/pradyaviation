@@ -170,10 +170,10 @@ const Footer = () => {
                 <div>
                   <p className="text-zinc-400 text-sm">Email</p>
                   <a 
-                    href="mailto:info@airavath.com" 
+                    href="mailto:pradyaviation@gmail.com" 
                     className="text-zinc-200 hover:text-white transition-colors"
                   >
-                    info@airavath.com
+                    pradyaviation@gmail.com
                   </a>
                 </div>
               </div>
@@ -187,7 +187,7 @@ const Footer = () => {
                     href="tel:+1-555-AIRAVATH" 
                     className="text-zinc-200 hover:text-white transition-colors"
                   >
-                    +1 (555) AIRAVATH
+                    +91 91210 55512
                   </a>
                 </div>
               </div>
@@ -198,9 +198,9 @@ const Footer = () => {
                 <div>
                   <p className="text-zinc-400 text-sm">Address</p>
                   <address className="text-zinc-200 not-italic text-sm leading-relaxed">
-                    Innovation District<br />
-                    Tech Hub Center<br />
-                    Silicon Valley, CA 94025
+                    Launching primarily in<br />
+                    Andhra Pradesh & Telangana<br />
+                    India
                   </address>
                 </div>
               </div>

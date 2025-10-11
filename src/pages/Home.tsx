@@ -1648,7 +1648,7 @@ const Home = () => {
               <div className="space-y-3 text-airavata-light-gray">
                 <div className="mb-4">
                   <p className="font-semibold text-white mb-2">Request for Proposal</p>
-                  <p>info@airavath.com</p>
+                  <p>pradyaviation@gmail.com</p>
                 </div>
                 <div>
                   <p className="font-semibold text-white mb-2">for Calls</p>
