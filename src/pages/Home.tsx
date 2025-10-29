@@ -534,11 +534,11 @@ const Home = () => {
       {/* ABOUT SECTION - What We Believe */}
       <section 
         id="beliefs"
-        className="relative min-h-screen bg-black py-2 md:py-4 px-4"
+        className="relative bg-black py-12 px-4"
       >
-        <div ref={believeRef} className="min-h-screen bg-black py-2 md:py-4 px-4">
+        <div ref={believeRef} className="bg-black py-8 px-4">
           <div className="max-w-7xl mx-auto">
-            <div className="text-center mb-8 md:mb-12">
+            <div className="text-center mb-10">
               <h2 className="believe-title text-white text-4xl font-bold mb-4 uppercase tracking-wider">
                 What We Believe
               </h2>
@@ -630,13 +630,13 @@ const Home = () => {
       {/* OBJECTIVES SECTION - Future Objectives Timeline */}
       <section 
         id="objectives"
-        className="relative min-h-screen bg-black py-20"
+        className="relative min-h-screen bg-black py-12"
       >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Header */}
           <div className="text-center mb-12">
             <h1 
-              className="text-white mb-3 opacity-0 translate-y-[-30px] transition-all duration-1000 ease-out"
+              className="text-white mb-3"
               style={{
                 fontFamily: 'Inter, system-ui, -apple-system, sans-serif',
                 fontSize: '2.5rem',
@@ -645,16 +645,12 @@ const Home = () => {
                 textTransform: 'uppercase',
                 textShadow: '0 4px 8px rgba(0,0,0,0.5)',
                 lineHeight: '1.1',
-                animationDelay: '0.2s',
-                animationName: 'dropDown',
-                animationDuration: '1s',
-                animationFillMode: 'forwards',
               }}
             >
               Future <span className="text-white">Objectives</span>
             </h1>
             <p 
-              className="text-white/90 max-w-3xl mx-auto opacity-0 translate-y-[-30px] transition-all duration-1000 ease-out"
+              className="text-white/90 max-w-3xl mx-auto"
               style={{
                 fontFamily: 'Inter, system-ui, -apple-system, sans-serif',
                 fontSize: '1rem',
@@ -663,10 +659,6 @@ const Home = () => {
                 textShadow: '0 2px 4px rgba(0,0,0,0.5)',
                 lineHeight: '1.4',
                 textTransform: 'uppercase',
-                animationDelay: '0.6s',
-                animationName: 'dropDown',
-                animationDuration: '1s',
-                animationFillMode: 'forwards',
               }}
             >
               Roadmap to Vertical Freedom - Our journey to revolutionize urban mobility
