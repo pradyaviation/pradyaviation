@@ -222,57 +222,58 @@ ${formData.message}`;
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* GET IN TOUCH Header */}
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-white mb-4 uppercase tracking-wider">
+            <h2 className="text-4xl font-bold text-white mb-5 uppercase tracking-wider">
               GET IN TOUCH
             </h2>
-            <p className="text-airavata-light-gray text-lg">
+            <div className="w-20 h-0.5 bg-white mx-auto mb-6"></div>
+            <p className="text-airavata-light-gray text-base max-w-2xl mx-auto">
               We'd love to hear from you. Reach out to us through any of the following channels.
             </p>
           </div>
 
-          {/* Contact Information Cards */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-            {/* Phone Card */}
-            <div className="bg-gradient-to-br from-airavata-gray/20 to-airavata-gray/5 rounded-2xl p-8 border border-white/10 hover:border-white/30 transition-all duration-300 transform hover:scale-105 hover:shadow-2xl hover:shadow-white/10">
-              <div className="flex items-center justify-center mb-6">
-                <div className="w-20 h-20 bg-white/10 rounded-full flex items-center justify-center backdrop-blur-sm">
-                  <Phone className="text-white" size={36} />
+          {/* Contact Information - Horizontal Layout */}
+          <div className="max-w-4xl mx-auto">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-16">
+              {/* Phone */}
+              <div className="text-center group">
+                <div className="inline-block mb-6 transition-transform duration-300 group-hover:scale-110">
+                  <div className="w-20 h-20 rounded-full flex items-center justify-center relative overflow-hidden">
+                    <div className="absolute inset-0 bg-white/5 group-hover:bg-white/10 transition-all duration-300"></div>
+                    <Phone className="text-white relative z-10" size={36} strokeWidth={1.5} />
+                  </div>
                 </div>
-              </div>
-              <h3 className="text-2xl font-bold text-white mb-4 text-center uppercase tracking-wider">
-                Phone
-              </h3>
-              <div className="text-center space-y-2">
+                <h3 className="text-2xl font-bold text-white mb-4 uppercase tracking-wider">
+                  Phone
+                </h3>
                 <a 
                   href="tel:+13213899564" 
-                  className="text-airavata-light-gray hover:text-white transition-colors duration-200 text-lg font-medium block"
+                  className="text-xl text-airavata-light-gray hover:text-white transition-colors duration-200 font-light block mb-2"
                 >
                   +1 (321) 389-9564
                 </a>
-                <p className="text-sm text-airavata-light-gray/70">
+                <p className="text-sm text-airavata-light-gray/60 uppercase tracking-wide">
                   Available during business hours
                 </p>
               </div>
-            </div>
 
-            {/* Email Card */}
-            <div className="bg-gradient-to-br from-airavata-gray/20 to-airavata-gray/5 rounded-2xl p-8 border border-white/10 hover:border-white/30 transition-all duration-300 transform hover:scale-105 hover:shadow-2xl hover:shadow-white/10">
-              <div className="flex items-center justify-center mb-6">
-                <div className="w-20 h-20 bg-white/10 rounded-full flex items-center justify-center backdrop-blur-sm">
-                  <Mail className="text-white" size={36} />
+              {/* Email */}
+              <div className="text-center group">
+                <div className="inline-block mb-6 transition-transform duration-300 group-hover:scale-110">
+                  <div className="w-20 h-20 rounded-full flex items-center justify-center relative overflow-hidden">
+                    <div className="absolute inset-0 bg-white/5 group-hover:bg-white/10 transition-all duration-300"></div>
+                    <Mail className="text-white relative z-10" size={36} strokeWidth={1.5} />
+                  </div>
                 </div>
-              </div>
-              <h3 className="text-2xl font-bold text-white mb-4 text-center uppercase tracking-wider">
-                Email
-              </h3>
-              <div className="text-center space-y-2">
+                <h3 className="text-2xl font-bold text-white mb-4 uppercase tracking-wider">
+                  Email
+                </h3>
                 <a 
                   href="mailto:pradyaviation@gmail.com" 
-                  className="text-airavata-light-gray hover:text-white transition-colors duration-200 text-lg font-medium block break-all"
+                  className="text-lg text-airavata-light-gray hover:text-white transition-colors duration-200 font-light block mb-2 break-all"
                 >
                   pradyaviation@gmail.com
                 </a>
-                <p className="text-sm text-airavata-light-gray/70">
+                <p className="text-sm text-airavata-light-gray/60 uppercase tracking-wide">
                   We'll respond within 24 hours
                 </p>
               </div>
