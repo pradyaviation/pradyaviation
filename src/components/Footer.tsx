@@ -7,7 +7,6 @@ import {
   Youtube, 
   Mail, 
   Phone, 
-  MapPin,
   ArrowRight,
   Plane
 } from 'lucide-react';
@@ -60,10 +59,10 @@ const Footer = () => {
     <footer className="bg-black border-t border-zinc-800">
       {/* Main Footer Content */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-16">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12">
+        <div className="grid grid-cols-1 lg:grid-cols-[1fr_2fr] gap-8 lg:gap-6">
           
           {/* Company Info - Logo & Description */}
-          <div className="lg:col-span-2 space-y-6">
+          <div className="space-y-6">
             {/* Logo */}
             <div className="flex items-center space-x-3">
               <div className="relative">
@@ -117,94 +116,80 @@ const Footer = () => {
             </div>
           </div>
 
-          {/* Quick Links */}
-          <div className="space-y-6 lg:space-y-6">
-            {/* Mobile: Two separate sections side by side */}
-            <div className="grid grid-cols-2 gap-x-8 lg:block lg:space-y-6">
-              {/* Quick Links Column */}
-              <div>
-                <h4 className="text-white font-semibold text-lg mb-4 lg:mb-6">Quick Links</h4>
-                <nav className="space-y-1 lg:space-y-3">
-                  {quickLinks.map((link) => (
-                    <Link
-                      key={link.name}
-                      to={link.path}
-                      className="group flex items-center text-zinc-400 hover:text-white transition-colors duration-200 text-sm lg:text-base"
-                    >
-                      <ArrowRight size={12} className="lg:size-[14px] mr-2 opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all duration-200" />
-                      <span className="group-hover:translate-x-2 transition-transform duration-200">
-                        {link.name}
-                      </span>
-                    </Link>
-                  ))}
-                </nav>
-              </div>
-              
-              {/* Legal Links Column */}
-              <div className="lg:pt-4 lg:border-t lg:border-zinc-800">
-                <h4 className="text-white font-semibold text-lg mb-4 lg:mb-3 lg:hidden">Legal</h4>
-                <h5 className="text-zinc-300 font-medium text-sm mb-2 lg:mb-3 hidden lg:block">Legal</h5>
-                <nav className="space-y-1 lg:space-y-2">
-                  {legalLinks.map((link) => (
-                    <Link
-                      key={link.name}
-                      to={link.path}
-                      className="block text-zinc-500 hover:text-zinc-300 text-sm transition-colors duration-200"
-                    >
-                      {link.name}
-                    </Link>
-                  ))}
-                </nav>
-              </div>
-            </div>
-          </div>
-
-          {/* Contact Info */}
-          <div className="space-y-6">
-            <h4 className="text-white font-semibold text-lg">Get In Touch</h4>
-            
+          {/* Right Side: Quick Links, Legal, and Get In Touch in one row */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 lg:gap-4 lg:pl-8">
+            {/* Quick Links */}
             <div className="space-y-4">
-              {/* Email */}
-              <div className="flex items-start space-x-3">
-                <Mail size={18} className="text-white mt-0.5 flex-shrink-0" />
-                <div>
-                  <p className="text-zinc-400 text-sm">Email</p>
-                  <a 
-                    href="mailto:info@airavath.com" 
-                    className="text-zinc-200 hover:text-white transition-colors"
+              <h4 className="text-white font-semibold text-base lg:text-lg mb-3">Quick Links</h4>
+              <nav className="space-y-2">
+                {quickLinks.map((link) => (
+                  <Link
+                    key={link.name}
+                    to={link.path}
+                    className="group flex items-center text-zinc-400 hover:text-white transition-colors duration-200 text-sm"
                   >
-                    info@airavath.com
+                    <ArrowRight size={12} className="mr-2 opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all duration-200" />
+                    <span className="group-hover:translate-x-2 transition-transform duration-200">
+                      {link.name}
+                    </span>
+                  </Link>
+                ))}
+              </nav>
+            </div>
+
+            {/* Legal Links */}
+            <div className="space-y-4">
+              <h4 className="text-white font-semibold text-base lg:text-lg mb-3">Legal</h4>
+              <nav className="space-y-2">
+                {legalLinks.map((link) => (
+                  <Link
+                    key={link.name}
+                    to={link.path}
+                    className="group flex items-center text-zinc-400 hover:text-white transition-colors duration-200 text-sm"
+                  >
+                    <ArrowRight size={12} className="mr-2 opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all duration-200" />
+                    <span className="group-hover:translate-x-2 transition-transform duration-200">
+                      {link.name}
+                    </span>
+                  </Link>
+                ))}
+              </nav>
+            </div>
+
+            {/* Contact Info */}
+            <div className="space-y-4">
+              <h4 className="text-white font-semibold text-base lg:text-lg mb-3">Get In Touch</h4>
+              
+              <div className="space-y-3">
+                {/* Email */}
+                <div className="flex items-start space-x-2">
+                  <Mail size={16} className="text-white mt-0.5 flex-shrink-0" />
+                  <div>
+                    <p className="text-zinc-400 text-xs">Email</p>
+                    <a 
+                      href="mailto:pradyaviation@gmail.com" 
+                      className="text-zinc-200 hover:text-white transition-colors text-sm break-all"
+                  >
+                    pradyaviation@gmail.com
                   </a>
                 </div>
               </div>
 
               {/* Phone */}
-              <div className="flex items-start space-x-3">
-                <Phone size={18} className="text-white mt-0.5 flex-shrink-0" />
+              <div className="flex items-start space-x-2">
+                <Phone size={16} className="text-white mt-0.5 flex-shrink-0" />
                 <div>
-                  <p className="text-zinc-400 text-sm">Phone</p>
+                  <p className="text-zinc-400 text-xs">Phone</p>
                   <a 
-                    href="tel:+1-555-AIRAVATH" 
-                    className="text-zinc-200 hover:text-white transition-colors"
+                    href="tel:+13213899564" 
+                    className="text-zinc-200 hover:text-white transition-colors text-sm"
                   >
-                    +1 (555) AIRAVATH
+                    +1 (321) 389-9564
                   </a>
                 </div>
               </div>
-
-              {/* Address */}
-              <div className="flex items-start space-x-3">
-                <MapPin size={18} className="text-white mt-0.5 flex-shrink-0" />
-                <div>
-                  <p className="text-zinc-400 text-sm">Address</p>
-                  <address className="text-zinc-200 not-italic text-sm leading-relaxed">
-                    Innovation District<br />
-                    Tech Hub Center<br />
-                    Silicon Valley, CA 94025
-                  </address>
-                </div>
-              </div>
             </div>
+          </div>
           </div>
         </div>
       </div>

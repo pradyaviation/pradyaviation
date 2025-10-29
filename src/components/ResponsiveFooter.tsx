@@ -217,13 +217,13 @@ const ResponsiveFooter = () => {
                 <ContactItem
                   icon={Phone}
                   title="Phone"
-                  content="+1 (555) AIRAVATH"
+                  content="+91 91210 55512"
                   link="tel:+1-555-AIRAVATH"
                 />
                 <ContactItem
                   icon={MapPin}
                   title="Address"
-                  content="Innovation District, Tech Hub Center, Silicon Valley, CA 94025"
+                  content="Launching primarily in Andhra Pradesh & Telangana, India"
                 />
               </div>
             )}
@@ -337,13 +337,13 @@ const ResponsiveFooter = () => {
                 <ContactItem
                   icon={Phone}
                   title="Phone"
-                  content="+1 (555) AIRAVATH"
+                  content="+91 91210 55512"
                   link="tel:+1-555-AIRAVATH"
                 />
                 <ContactItem
                   icon={MapPin}
                   title="Address"
-                  content="Innovation District, Tech Hub Center, Silicon Valley, CA 94025"
+                  content="Launching primarily in Andhra Pradesh & Telangana, India"
                 />
               </div>
 

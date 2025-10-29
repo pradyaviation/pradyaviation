@@ -902,72 +902,60 @@ const Home = () => {
       >
         <div ref={contactFormRef} className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-white mb-4 uppercase tracking-wider">
+            <h2 className="text-4xl font-bold text-white mb-5 uppercase tracking-wider">
               GET IN TOUCH
             </h2>
+            <div className="w-20 h-0.5 bg-white mx-auto mb-6"></div>
+            <p className="text-airavata-light-gray text-base max-w-2xl mx-auto">
+              We'd love to hear from you. Reach out to us through any of the following channels.
+            </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-            {/* Address */}
-            <div className="contact-item text-center flex flex-col items-center">
-              <div className="w-24 h-24 bg-airavata-gray/30 rounded-full flex items-center justify-center mx-auto mb-6">
-                <MapPin className="text-white" size={40} />
-              </div>
-              <h3 className="text-xl font-bold text-white mb-6 uppercase tracking-wider">
-                ADDRESS
-              </h3>
-              <div className="space-y-3 text-airavata-light-gray">
-                <div className="mb-4">
-                  <p className="font-semibold text-white mb-2">AIRAVATH Headquarters</p>
-                  <p>123 Innovation Drive</p>
-                  <p>INDIA, 94102</p>
+          {/* Contact Information - Horizontal Layout */}
+          <div className="max-w-4xl mx-auto">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-16">
+              {/* Phone */}
+              <div className="contact-item text-center group">
+                <div className="inline-block mb-6 transition-transform duration-300 group-hover:scale-110">
+                  <div className="w-20 h-20 rounded-full flex items-center justify-center relative overflow-hidden">
+                    <div className="absolute inset-0 bg-white/5 group-hover:bg-white/10 transition-all duration-300"></div>
+                    <Phone className="text-white relative z-10" size={36} strokeWidth={1.5} />
+                  </div>
                 </div>
-                <div>
-                  <p className="font-semibold text-white mb-2">Northern Division Office</p>
-                  <p>456 Tech city</p>
-                  <p>Andhra Pradesh, 555555</p>
-                </div>
+                <h3 className="text-2xl font-bold text-white mb-4 uppercase tracking-wider">
+                  Phone
+                </h3>
+                <a 
+                  href="tel:+13213899564" 
+                  className="text-xl text-airavata-light-gray hover:text-white transition-colors duration-200 font-light block mb-2"
+                >
+                  +1 (321) 389-9564
+                </a>
+                <p className="text-sm text-airavata-light-gray/60 uppercase tracking-wide">
+                  Available during business hours
+                </p>
               </div>
-            </div>
 
-            {/* Phone */}
-            <div className="contact-item text-center flex flex-col items-center mt-16">
-              <div className="w-24 h-24 bg-airavata-gray/30 rounded-full flex items-center justify-center mx-auto mb-6">
-                <Phone className="text-white" size={40} />
-              </div>
-              <h3 className="text-xl font-bold text-white mb-6 uppercase tracking-wider">
-                PHONE
-              </h3>
-              <div className="space-y-3 text-airavata-light-gray">
-                <div className="mb-4">
-                  <p className="font-semibold text-white mb-2">AIRAVATH Main Line</p>
-                  <p>+91  123-4567 phone</p>
-                  <p>+91  123-4568 facsimile</p>
+              {/* Email */}
+              <div className="contact-item text-center group">
+                <div className="inline-block mb-6 transition-transform duration-300 group-hover:scale-110">
+                  <div className="w-20 h-20 rounded-full flex items-center justify-center relative overflow-hidden">
+                    <div className="absolute inset-0 bg-white/5 group-hover:bg-white/10 transition-all duration-300"></div>
+                    <Mail className="text-white relative z-10" size={36} strokeWidth={1.5} />
+                  </div>
                 </div>
-                <div>
-                  <p className="font-semibold text-white mb-2">AIRAVATH 24/7 Department</p>
-                  <p>+91  911-HELP</p>
-                </div>
-              </div>
-            </div>
-
-            {/* Email */}
-            <div className="contact-item text-center flex flex-col items-center">
-              <div className="w-24 h-24 bg-airavata-gray/30 rounded-full flex items-center justify-center mx-auto mb-6">
-                <Mail className="text-white" size={40} />
-              </div>
-              <h3 className="text-xl font-bold text-white mb-6 uppercase tracking-wider">
-                EMAIL
-              </h3>
-              <div className="space-y-3 text-airavata-light-gray">
-                <div className="mb-4">
-                  <p className="font-semibold text-white mb-2">Request for Proposal</p>
-                  <p>info@airavath.com</p>
-                </div>
-                <div>
-                  <p className="font-semibold text-white mb-2">for Calls</p>
-                  <p>service@airavath.com</p>
-                </div>
+                <h3 className="text-2xl font-bold text-white mb-4 uppercase tracking-wider">
+                  Email
+                </h3>
+                <a 
+                  href="mailto:pradyaviation@gmail.com" 
+                  className="text-lg text-airavata-light-gray hover:text-white transition-colors duration-200 font-light block mb-2 break-all"
+                >
+                  pradyaviation@gmail.com
+                </a>
+                <p className="text-sm text-airavata-light-gray/60 uppercase tracking-wide">
+                  We'll respond within 24 hours
+                </p>
               </div>
             </div>
           </div>
