@@ -2,7 +2,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { Mail, Phone, MapPin, Send } from 'lucide-react';
+import { Mail, Phone, Send } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
@@ -76,13 +76,33 @@ const Contact = () => {
     e.preventDefault();
     setIsSubmitting(true);
 
-    // Simulate form submission
+    // Create WhatsApp message with form data
+    const phoneNumber = '13213899564'; // +1 (321) 389-9564 without special characters
+    const whatsappMessage = `Hello! I'm reaching out from the AIRAVATH website.
+
+*Name:* ${formData.name}
+*Email:* ${formData.email}
+
+*Message:*
+${formData.message}`;
+
+    // Encode the message for URL
+    const encodedMessage = encodeURIComponent(whatsappMessage);
+    
+    // Create WhatsApp URL
+    const whatsappURL = `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
+    
+    // Open WhatsApp in a new tab
+    window.open(whatsappURL, '_blank');
+    
+    // Show success toast
+    toast({
+      title: "Redirecting to WhatsApp",
+      description: "Opening WhatsApp to send your message...",
+    });
+    
+    // Reset form and button state
     setTimeout(() => {
-      toast({
-        title: "Message Sent Successfully",
-        description: "Thank you for your interest in AIRAVATH. We'll be in touch soon.",
-      });
-      
       setFormData({ name: '', email: '', message: '' });
       setIsSubmitting(false);
     }, 1000);
@@ -205,168 +225,57 @@ const Contact = () => {
             <h2 className="text-4xl font-bold text-white mb-4 uppercase tracking-wider">
               GET IN TOUCH
             </h2>
+            <p className="text-airavata-light-gray text-lg">
+              We'd love to hear from you. Reach out to us through any of the following channels.
+            </p>
           </div>
 
-          {/* Contact Information Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-            {/* Address - Higher position */}
-            <div className="text-center flex flex-col items-center">
-              <div className="w-24 h-24 bg-airavata-gray/30 rounded-full flex items-center justify-center mx-auto mb-6">
-                <MapPin className="text-white" size={40} />
+          {/* Contact Information Cards */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+            {/* Phone Card */}
+            <div className="bg-gradient-to-br from-airavata-gray/20 to-airavata-gray/5 rounded-2xl p-8 border border-white/10 hover:border-white/30 transition-all duration-300 transform hover:scale-105 hover:shadow-2xl hover:shadow-white/10">
+              <div className="flex items-center justify-center mb-6">
+                <div className="w-20 h-20 bg-white/10 rounded-full flex items-center justify-center backdrop-blur-sm">
+                  <Phone className="text-white" size={36} />
+                </div>
               </div>
-              <h3 className="text-xl font-bold text-white mb-6 uppercase tracking-wider">
-                ADDRESS
+              <h3 className="text-2xl font-bold text-white mb-4 text-center uppercase tracking-wider">
+                Phone
               </h3>
-              <div className="space-y-3 text-airavata-light-gray">
-                <div className="mb-4">
-                  <p className="font-semibold text-white mb-2">AIRAVATH Headquarters</p>
-                  <p>123 Innovation Drive</p>
-                  <p>INDIA, 94102</p>
-                </div>
-                <div>
-                  <p className="font-semibold text-white mb-2">Northern Division Office</p>
-                  <p>456 Tech city</p>
-                  <p>Andhra Pradesh, 555555</p>
-                </div>
-              </div>
-            </div>
-
-            {/* Phone - Lower position */}
-            <div className="text-center flex flex-col items-center mt-16">
-              <div className="w-24 h-24 bg-airavata-gray/30 rounded-full flex items-center justify-center mx-auto mb-6">
-                <Phone className="text-white" size={40} />
-              </div>
-              <h3 className="text-xl font-bold text-white mb-6 uppercase tracking-wider">
-                PHONE
-              </h3>
-              <div className="space-y-3 text-airavata-light-gray">
-                <div className="mb-4">
-                  <p className="font-semibold text-white mb-2">AIRAVAT Main Line</p>
-                  <p>+91  123-4567 phone</p>
-                  <p>+91  123-4568 facsimile</p>
-                </div>
-                <div>
-                  <p className="font-semibold text-white mb-2">AIRAVAT 24/7 Department</p>
-                  <p>+91  911-HELP</p>
-                </div>
-              </div>
-            </div>
-
-            {/* Email - Higher position */}
-            <div className="text-center flex flex-col items-center">
-              <div className="w-24 h-24 bg-airavata-gray/30 rounded-full flex items-center justify-center mx-auto mb-6">
-                <Mail className="text-white" size={40} />
-              </div>
-              <h3 className="text-xl font-bold text-white mb-6 uppercase tracking-wider">
-                EMAIL
-              </h3>
-              <div className="space-y-3 text-airavata-light-gray">
-                <div className="mb-4">
-                  <p className="font-semibold text-white mb-2">Request for Proposal</p>
-                  <p>info@airavat.com</p>
-                </div>
-                <div>
-                  <p className="font-semibold text-white mb-2">for Calls</p>
-                  <p>service@airavat.com</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Fourth Section - Map Only */}
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 mt-16">
-          <div className="flex items-center justify-between">
-            {/* Left side - Location Icon */}
-            <div className="w-1/2 flex justify-center items-center">
-              <div 
-                className="w-96 h-96 flex items-center justify-center"
-                style={{
-                  boxShadow: '0 10px 30px rgba(169, 169, 169, 0.3), 0 5px 15px rgba(169, 169, 169, 0.2)'
-                }}
-              >
-                <svg 
-                  width="300" 
-                  height="300" 
-                  viewBox="0 0 24 24" 
-                  fill="none" 
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="text-white animate-bounce"
-                  style={{
-                    animation: 'pinPulse 2s ease-in-out infinite'
-                  }}
+              <div className="text-center space-y-2">
+                <a 
+                  href="tel:+13213899564" 
+                  className="text-airavata-light-gray hover:text-white transition-colors duration-200 text-lg font-medium block"
                 >
-                  <defs>
-                    <filter id="dropShadow" x="-50%" y="-50%" width="200%" height="200%">
-                      <feGaussianBlur in="SourceAlpha" stdDeviation="0.5"/>
-                      <feOffset dx="0" dy="1" result="offset"/>
-                      <feFlood floodColor="black" floodOpacity="0.2"/>
-                      <feComposite in2="offset" operator="in"/>
-                      <feMerge>
-                        <feMergeNode/>
-                        <feMergeNode in="SourceGraphic"/>
-                      </feMerge>
-                    </filter>
-                  </defs>
-                  
-                  {/* Multiple shadow layers for realistic effect */}
-                  <ellipse 
-                    cx="12" 
-                    cy="22.5" 
-                    rx="9" 
-                    ry="2.5" 
-                    fill="currentColor" 
-                    opacity="0.05"
-                  />
-                  <ellipse 
-                    cx="12" 
-                    cy="22" 
-                    rx="8" 
-                    ry="2" 
-                    fill="currentColor" 
-                    opacity="0.08"
-                  />
-                  <ellipse 
-                    cx="12" 
-                    cy="21.5" 
-                    rx="7.5" 
-                    ry="1.8" 
-                    fill="currentColor" 
-                    opacity="0.12"
-                  />
-                  
-                  {/* Circular base */}
-                  <ellipse 
-                    cx="12" 
-                    cy="21" 
-                    rx="7" 
-                    ry="1.5" 
-                    fill="currentColor" 
-                    opacity="0.3"
-                    filter="url(#dropShadow)"
-                  />
-                  
-                  {/* Location pin */}
-                  <path 
-                    d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" 
-                    fill="currentColor"
-                    filter="url(#dropShadow)"
-                  />
-                </svg>
+                  +1 (321) 389-9564
+                </a>
+                <p className="text-sm text-airavata-light-gray/70">
+                  Available during business hours
+                </p>
               </div>
             </div>
-            
-            {/* Right side - Map */}
-            <div className="w-1/2 h-96 overflow-hidden">
-              <iframe
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d805184.6331292129!2d-122.89308605078125!3d37.77492950312436!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x80859a6d00690021%3A0x4a501367f076adff!2sSan%20Francisco%2C%20CA%2C%20USA!5e0!3m2!1sen!2sus!4v1704369600000!5m2!1sen!2sus"
-                width="100%"
-                height="100%"
-                style={{ border: 0 }}
-                allowFullScreen
-                loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade"
-              />
+
+            {/* Email Card */}
+            <div className="bg-gradient-to-br from-airavata-gray/20 to-airavata-gray/5 rounded-2xl p-8 border border-white/10 hover:border-white/30 transition-all duration-300 transform hover:scale-105 hover:shadow-2xl hover:shadow-white/10">
+              <div className="flex items-center justify-center mb-6">
+                <div className="w-20 h-20 bg-white/10 rounded-full flex items-center justify-center backdrop-blur-sm">
+                  <Mail className="text-white" size={36} />
+                </div>
+              </div>
+              <h3 className="text-2xl font-bold text-white mb-4 text-center uppercase tracking-wider">
+                Email
+              </h3>
+              <div className="text-center space-y-2">
+                <a 
+                  href="mailto:pradyaviation@gmail.com" 
+                  className="text-airavata-light-gray hover:text-white transition-colors duration-200 text-lg font-medium block break-all"
+                >
+                  pradyaviation@gmail.com
+                </a>
+                <p className="text-sm text-airavata-light-gray/70">
+                  We'll respond within 24 hours
+                </p>
+              </div>
             </div>
           </div>
         </div>
