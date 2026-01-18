@@ -1,248 +1,264 @@
 
-import { useEffect, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { gsap } from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { ArrowRight } from 'lucide-react';
-
-gsap.registerPlugin(ScrollTrigger);
+import { useEffect } from 'react';
 
 const About = () => {
-  const headerRef = useRef<HTMLDivElement>(null);
-  const believeRef = useRef<HTMLDivElement>(null);
-  const navigate = useNavigate();
-
   useEffect(() => {
     // Scroll to top when component mounts
     window.scrollTo(0, 0);
-    
-    // Header animation (left to right)
-    if (headerRef.current) {
-      const elements = headerRef.current.children;
-      
-      // Set initial state
-      gsap.set(elements, {
-        x: -100,
-        opacity: 0
-      });
-
-      // Animate elements from left to right with stagger
-      gsap.to(elements, {
-        x: 0,
-        opacity: 1,
-        duration: 1.2,
-        stagger: 0.3,
-        ease: "power2.out",
-        delay: 0.5
-      });
-    }
-
-    // What We Believe section animation
-    if (believeRef.current) {
-      const believeTitle = believeRef.current.querySelector('.believe-title');
-      const believeLine = believeRef.current.querySelector('.believe-line');
-      const believeCards = believeRef.current.querySelectorAll('.believe-card');
-
-      // Set initial state
-      gsap.set([believeTitle, believeLine, ...believeCards], {
-        y: 30,
-        opacity: 0
-      });
-
-      ScrollTrigger.create({
-        trigger: believeRef.current,
-        start: 'top 80%',
-        end: 'bottom 20%',
-        onEnter: () => {
-          // Animate title faster
-          gsap.to(believeTitle, {
-            y: 0,
-            opacity: 1,
-            duration: 0.6,
-            ease: "power2.out"
-          });
-
-          // Animate line faster
-          gsap.to(believeLine, {
-            y: 0,
-            opacity: 1,
-            duration: 0.4,
-            delay: 0.2,
-            ease: "power2.out"
-          });
-
-          // Animate cards with faster stagger
-          gsap.to(believeCards, {
-            y: 0,
-            opacity: 1,
-            duration: 0.7,
-            stagger: 0.15,
-            delay: 0.4,
-            ease: "power2.out"
-          });
-        }
-      });
-    }
-
-    return () => {
-      ScrollTrigger.getAll().forEach(trigger => trigger.kill());
-    };
   }, []);
 
   return (
-    <div className="min-h-screen pt-16">
-      {/* Header Section */}
-  <div ref={headerRef} className="absolute top-14 md:top-20 left-4 md:left-8 z-10 max-w-[15.5rem] sm:max-w-xs md:max-w-md px-2 sm:px-4 md:px-0">
-  <h1 className="text-white text-xl leading-snug md:text-4xl font-bold mb-2 md:mb-2">
-          MEET AIRAVATH
-        </h1>
-  <div className="w-14 md:w-24 h-0.5 bg-white mb-3 md:mb-4"></div>
-  <p className="text-white text-[11px] sm:text-xs md:text-base uppercase leading-relaxed mb-2 md:mb-6 tracking-wide">
-          A VISIONARY TEAM REVOLUTIONIZING URBAN MOBILITY THROUGH THE SKIES WITH LUXURIOUS, MEDICALLY-EQUIPPED AIR TAXIS — FROM EMERGENCY CARE TO EXECUTIVE TRAVEL.
-        </p>
-  <p className="text-white text-[11px] sm:text-xs md:text-base uppercase leading-relaxed mb-4 md:mb-8 tracking-wide">
-         AT AIRAVATH, OUR NAME UNITES HERITAGE AND VISION. INSPIRED BY THE MYTHICAL WHITE ELEPHANT OF LORD INDRA, IT SYMBOLIZES STRENGTH, GUARDIANSHIP, AND CONNECTION — PRINCIPLES WE BRING TO MODERN AVIATION.
-
-STRENGTH & RELIABILITY: Trust, protection, and safety in the skies.
-
-INNOVATION: AI-driven solutions shaping the future of aviation.
-
-SUSTAINABILITY: Eco-friendly, safe, and responsible aerospace.
-
-GLOBAL CONNECTIVITY: Bridging people, places, and possibilities through flight. 
-        </p>
-        
-        {/* Buttons */}
-  <div className="flex flex-col sm:flex-row gap-2 md:gap-4">
-          {/* Connect With Us Button */}
-          <button 
-            onClick={() => navigate('/contact')}
-            className="group relative inline-flex items-center w-full sm:w-auto px-3 py-1.5 md:px-8 md:py-4 bg-transparent border-2 border-white/30 text-white font-semibold tracking-wide transition-all duration-500 hover:border-white uppercase text-[10px] md:text-sm overflow-hidden rounded-none"
-          >
-            {/* White hover animation background */}
-            <div className="absolute inset-0 bg-white transform -translate-x-full group-hover:translate-x-0 transition-transform duration-500 ease-out"></div>
-            
-            {/* Button content */}
-            <div className="relative z-10 flex items-center justify-center w-full sm:w-auto">
-              <span className="mr-2 md:mr-3 group-hover:text-black transition-colors duration-500">Connect With Us</span>
-              <ArrowRight size={12} className="md:size-[18px] group-hover:translate-x-2 group-hover:text-black transition-all duration-500" />
-            </div>
-          </button>
-
-          {/* Explore Button */}
-          <button 
-            onClick={() => navigate('/mission')}
-            className="group relative inline-flex items-center w-full sm:w-auto px-3 py-1.5 md:px-8 md:py-4 bg-transparent border-2 border-white/30 text-white font-semibold tracking-wide transition-all duration-500 hover:border-white uppercase text-[10px] md:text-sm overflow-hidden rounded-none"
-          >
-            {/* White hover animation background */}
-            <div className="absolute inset-0 bg-white transform -translate-x-full group-hover:translate-x-0 transition-transform duration-500 ease-out"></div>
-            
-            {/* Button content */}
-            <div className="relative z-10 flex items-center justify-center w-full sm:w-auto">
-              <span className="mr-2 md:mr-3 group-hover:text-black transition-colors duration-500">Explore</span>
-              <ArrowRight size={12} className="md:size-[18px] group-hover:translate-x-2 group-hover:text-black transition-all duration-500" />
-            </div>
-          </button>
-        </div>
-      </div>
-
-      {/* Section 1 - Black Screen with Image */}
-    {/* Reduced height on mobile to remove extra blank space */}
-    <div className="h-[78vh] sm:h-[85vh] md:h-screen bg-black relative overflow-hidden">
+    <div className="relative min-h-screen">
+      {/* Fixed Background Image */}
+      <div className="fixed inset-0 w-full h-screen z-0">
+        {/* Mobile Background */}
         <img 
-          src="https://i.ibb.co/n8zMKHsB/IMG-20250719-140017.webp" 
-          alt="Futuristic Room" 
-      className="w-full h-full object-cover scale-105 md:scale-100 transition-transform duration-300"
+          src="/mobile-about-bg.png" 
+          alt="AIRAVATH" 
+          className="md:hidden w-full h-full object-cover"
+        />
+        {/* Desktop Background */}
+        <img 
+          src="/IMG_20251228_203444.jpg" 
+          alt="AIRAVATH" 
+          className="hidden md:block w-full h-full object-cover"
         />
       </div>
 
-      {/* Section 3 - What We Believe */}
-      <div ref={believeRef} className="min-h-screen bg-black py-16 px-4">
-        <div className="max-w-7xl mx-auto">
-          {/* Section Title */}
-          <div className="text-center mb-16">
-            <h2 className="believe-title text-white text-4xl font-bold mb-4 uppercase tracking-wider">
-              What We Believe
-            </h2>
-            {/* Line under title */}
-            <div className="believe-line w-32 h-0.5 bg-white mx-auto"></div>
-          </div>
-
-          {/* Belief Cards */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+      {/* Scrollable Content Layer */}
+      <div className="relative z-10">
+        {/* Spacer to show the image first - reduced to show white layer sooner */}
+        <div className="h-[60vh] md:h-[70vh]"></div>
+        
+        {/* White Content Section */}
+        <div className="bg-white rounded-t-[3rem] shadow-2xl">
+          <div className="max-w-7xl mx-auto px-6 py-16">
             
-            {/* Card 1 - Time & Access */}
-            <div className="believe-card group bg-airavata-gray/20 backdrop-blur-sm border border-airavata-gray rounded-lg p-6 hover:border-white/50 hover:bg-white/10 hover:shadow-2xl hover:shadow-white/20 transition-all duration-500 hover:scale-105 cursor-pointer">
-              <h3 className="text-2xl font-bold text-white mb-3 group-hover:text-white group-hover:scale-105 transition-all duration-300 uppercase tracking-wide">
-                Time & Access
-              </h3>
-              <p className="text-lg text-white/90 mb-6 font-semibold">
-                Time Should Be Respected
-              </p>
-              
-              <div className="space-y-3">
-                <div className="flex items-start text-white/80 group-hover:text-white/90 transition-colors duration-300">
-                  <div className="w-2 h-2 bg-white rounded-full mr-3 mt-2 flex-shrink-0 group-hover:bg-white group-hover:scale-125 transition-all duration-300"></div>
-                  <span className="text-sm leading-relaxed">Air mobility should save time, not just cost more.</span>
+            {/* From Prototype to Pioneer Section */}
+            <div className="mb-20">
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+                {/* Left - Title and Image */}
+                <div>
+                  <h2 className="text-2xl md:text-4xl font-bold text-gray-900 mb-2 uppercase tracking-wider">
+                    FROM VISION
+                  </h2>
+                  <p className="text-xl md:text-3xl text-gray-600 mb-8 font-light">
+                    to reality
+                  </p>
+                  
+                  <div className="rounded-t-3xl overflow-hidden shadow-lg">
+                    <img 
+                      src="https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?q=80&w=2070" 
+                      alt="AIRAVATH Facility" 
+                      className="w-full h-auto object-cover"
+                    />
+                  </div>
                 </div>
-                <div className="flex items-start text-white/80 group-hover:text-white/90 transition-colors duration-300">
-                  <div className="w-2 h-2 bg-white rounded-full mr-3 mt-2 flex-shrink-0 group-hover:bg-white group-hover:scale-125 transition-all duration-300"></div>
-                  <span className="text-sm leading-relaxed">Emergency access should never be delayed.</span>
-                </div>
-                <div className="flex items-start text-white/80 group-hover:text-white/90 transition-colors duration-300">
-                  <div className="w-2 h-2 bg-white rounded-full mr-3 mt-2 flex-shrink-0 group-hover:bg-white group-hover:scale-125 transition-all duration-300"></div>
-                  <span className="text-sm leading-relaxed">The faster we move, the more lives we empower.</span>
+
+                {/* Right - Description Text */}
+                <div className="lg:pl-8 lg:pt-24">
+                  {/* Mobile Description */}
+                  <p className="md:hidden text-base text-gray-700 leading-relaxed">
+                    At Airavath, our name unites heritage and vision. Inspired by Lord Indra's white elephant, it symbolizes strength, guardianship, and connection—values reflected in our commitment to safety, AI-driven innovation, sustainable aviation, and global connectivity.
+                  </p>
+                  
+                  {/* Desktop Description */}
+                  <div className="hidden md:block">
+                    <p className="text-base md:text-lg text-gray-700 leading-relaxed mb-6">
+                      A VISIONARY TEAM REVOLUTIONIZING URBAN MOBILITY THROUGH THE SKIES WITH LUXURIOUS, MEDICALLY-EQUIPPED AIR TAXIS — FROM EMERGENCY CARE TO EXECUTIVE TRAVEL.
+                    </p>
+                    <p className="text-base md:text-lg text-gray-700 leading-relaxed">
+                      AT AIRAVATH, OUR NAME UNITES HERITAGE AND VISION. INSPIRED BY THE MYTHICAL WHITE ELEPHANT OF LORD INDRA, IT SYMBOLIZES STRENGTH, GUARDIANSHIP, AND CONNECTION — PRINCIPLES WE BRING TO MODERN AVIATION. STRENGTH & RELIABILITY: Trust, protection, and safety in the skies. INNOVATION: AI-driven solutions shaping the future of aviation. SUSTAINABILITY: Eco-friendly, safe, and responsible aerospace. GLOBAL CONNECTIVITY: Bridging people, places, and possibilities through flight.
+                    </p>
+                  </div>
                 </div>
               </div>
             </div>
 
-            {/* Card 2 - Vision & Future */}
-            <div className="believe-card group bg-airavata-gray/20 backdrop-blur-sm border border-airavata-gray rounded-lg p-6 hover:border-white/50 hover:bg-white/10 hover:shadow-2xl hover:shadow-white/20 transition-all duration-500 hover:scale-105 cursor-pointer">
-              <h3 className="text-2xl font-bold text-white mb-3 group-hover:text-white group-hover:scale-105 transition-all duration-300 uppercase tracking-wide">
-                Vision & Future
-              </h3>
-              <p className="text-lg text-white/90 mb-6 font-semibold">
-                The Sky Is Our Starting Point
-              </p>
-              
-              <div className="space-y-3">
-                <div className="flex items-start text-white/80 group-hover:text-white/90 transition-colors duration-300">
-                  <div className="w-2 h-2 bg-white rounded-full mr-3 mt-2 flex-shrink-0 group-hover:bg-white group-hover:scale-125 transition-all duration-300"></div>
-                  <span className="text-sm leading-relaxed">The future of transport is above us.</span>
+            {/* Where The Magic Happens Section */}
+            <div className="mb-20">
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+                {/* Image - Shows first on mobile, right on desktop */}
+                <div className="rounded-t-3xl overflow-hidden shadow-lg lg:order-2 mb-8 lg:mb-0">
+                  <img 
+                    src="/IMG_20251228_211947.jpg" 
+                    alt="Office Space" 
+                    className="w-full h-auto object-cover"
+                  />
                 </div>
-                <div className="flex items-start text-white/80 group-hover:text-white/90 transition-colors duration-300">
-                  <div className="w-2 h-2 bg-white rounded-full mr-3 mt-2 flex-shrink-0 group-hover:bg-white group-hover:scale-125 transition-all duration-300"></div>
-                  <span className="text-sm leading-relaxed">Every rooftop can become a launchpad.</span>
-                </div>
-                <div className="flex items-start text-white/80 group-hover:text-white/90 transition-colors duration-300">
-                  <div className="w-2 h-2 bg-white rounded-full mr-3 mt-2 flex-shrink-0 group-hover:bg-white group-hover:scale-125 transition-all duration-300"></div>
-                  <span className="text-sm leading-relaxed">Cities must grow vertically — not just outward.</span>
+
+                {/* Title and Description - Shows second on mobile, left on desktop */}
+                <div className="lg:order-1">
+                  <h2 className="text-3xl md:text-5xl font-bold text-gray-900 mb-12 uppercase tracking-wider">
+                    YOU'VE BEEN HERE<br />BEFORE
+                  </h2>
+
+                  {/* Problem Description */}
+                  <div className="space-y-4 text-gray-700 leading-relaxed">
+                    <p className="text-sm md:text-base">Gridlocked streets. Soaring fuel costs.</p>
+                    <p className="text-sm md:text-base">A 20-minute drive takes 90. Deadlines missed.</p>
+                    <p className="text-sm md:text-base">Emergencies delayed. Lives at risk.</p>
+                    <p className="text-sm md:text-base">Airports? No better — long lines, security checks, delays.</p>
+                    <p className="text-sm md:text-base">Whether it's your daily commute or a critical moment,</p>
+                    <p className="text-sm md:text-base">Today's transport is slow, unpredictable, and outdated.</p>
+                    <p className="text-sm md:text-base font-semibold">It's costing us time, money — and sometimes, lives.</p>
+                  </div>
                 </div>
               </div>
             </div>
 
-            {/* Card 3 - Purpose & Equality */}
-            <div className="believe-card group bg-airavata-gray/20 backdrop-blur-sm border border-airavata-gray rounded-lg p-6 hover:border-white/50 hover:bg-white/10 hover:shadow-2xl hover:shadow-white/20 transition-all duration-500 hover:scale-105 cursor-pointer">
-              <h3 className="text-2xl font-bold text-white mb-3 group-hover:text-white group-hover:scale-105 transition-all duration-300 uppercase tracking-wide">
-                Purpose & Equality
-              </h3>
-              <p className="text-lg text-white/90 mb-6 font-semibold">
-                Mobility Is for Everyone
+            {/* The Problem Section */}
+            <div className="mb-20 md:mb-20">
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+                {/* Left - Image */}
+                <div className="rounded-t-3xl overflow-hidden shadow-lg">
+                  <img 
+                    src="/IMG_20251228_214716.jpg" 
+                    alt="The Problem" 
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+
+                {/* Right - Description Text */}
+                <div className="lg:pl-8">
+                  <h2 className="text-3xl md:text-5xl font-bold text-gray-900 mb-8 uppercase tracking-wider">
+                    THE PROBLEM
+                  </h2>
+                  <p className="text-base md:text-lg text-blue-600 leading-relaxed">
+                    Traditional transport systems are overwhelmed—congested roads, unpredictable delays, and limited emergency mobility restrict both daily life and critical services. As cities grow, time loss and inefficiency become part of everyday travel.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* What We Believe Section */}
+            <div className="mb-16 mt-16 md:mt-0">
+              <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-12 uppercase tracking-wider">
+                Our Core Beliefs
+              </h2>
+
+              {/* Belief Cards */}
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+                
+                {/* Card 1 - Time & Access */}
+                <div className="bg-gradient-to-br from-blue-50 to-white border border-blue-200 rounded-lg p-5 md:p-8 hover:shadow-xl transition-all duration-300">
+                  <h3 className="text-xl md:text-2xl font-bold text-gray-900 mb-2 md:mb-3 uppercase tracking-wide">
+                    Time & Access
+                  </h3>
+                  <p className="text-base md:text-lg text-gray-800 mb-4 md:mb-6 font-semibold">
+                    Time Should Be Respected
+                  </p>
+                  
+                  <div className="space-y-3">
+                    <div className="flex items-start">
+                      <div className="w-2 h-2 bg-blue-600 rounded-full mr-3 mt-2 flex-shrink-0"></div>
+                      <span className="text-sm text-gray-700 leading-relaxed">Air mobility should save time, not just cost more.</span>
+                    </div>
+                    <div className="flex items-start">
+                      <div className="w-2 h-2 bg-blue-600 rounded-full mr-3 mt-2 flex-shrink-0"></div>
+                      <span className="text-sm text-gray-700 leading-relaxed">Emergency access should never be delayed.</span>
+                    </div>
+                    <div className="flex items-start">
+                      <div className="w-2 h-2 bg-blue-600 rounded-full mr-3 mt-2 flex-shrink-0"></div>
+                      <span className="text-sm text-gray-700 leading-relaxed">The faster we move, the more lives we empower.</span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Card 2 - Vision & Future */}
+                <div className="bg-gradient-to-br from-cyan-50 to-white border border-cyan-200 rounded-lg p-5 md:p-8 hover:shadow-xl transition-all duration-300">
+                  <h3 className="text-xl md:text-2xl font-bold text-gray-900 mb-2 md:mb-3 uppercase tracking-wide">
+                    Vision & Future
+                  </h3>
+                  <p className="text-base md:text-lg text-gray-800 mb-4 md:mb-6 font-semibold">
+                    The Sky Is Our Starting Point
+                  </p>
+                  
+                  <div className="space-y-3">
+                    <div className="flex items-start">
+                      <div className="w-2 h-2 bg-cyan-600 rounded-full mr-3 mt-2 flex-shrink-0"></div>
+                      <span className="text-sm text-gray-700 leading-relaxed">The future of transport is above us.</span>
+                    </div>
+                    <div className="flex items-start">
+                      <div className="w-2 h-2 bg-cyan-600 rounded-full mr-3 mt-2 flex-shrink-0"></div>
+                      <span className="text-sm text-gray-700 leading-relaxed">Every rooftop can become a launchpad.</span>
+                    </div>
+                    <div className="flex items-start">
+                      <div className="w-2 h-2 bg-cyan-600 rounded-full mr-3 mt-2 flex-shrink-0"></div>
+                      <span className="text-sm text-gray-700 leading-relaxed">Cities must grow vertically — not just outward.</span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Card 3 - Purpose & Equality */}
+                <div className="bg-gradient-to-br from-indigo-50 to-white border border-indigo-200 rounded-lg p-5 md:p-8 hover:shadow-xl transition-all duration-300">
+                  <h3 className="text-xl md:text-2xl font-bold text-gray-900 mb-2 md:mb-3 uppercase tracking-wide">
+                    Purpose & Equality
+                  </h3>
+                  <p className="text-base md:text-lg text-gray-800 mb-4 md:mb-6 font-semibold">
+                    Mobility Is for Everyone
+                  </p>
+                  
+                  <div className="space-y-3">
+                    <div className="flex items-start">
+                      <div className="w-2 h-2 bg-indigo-600 rounded-full mr-3 mt-2 flex-shrink-0"></div>
+                      <span className="text-sm text-gray-700 leading-relaxed">Flying shouldn't be a luxury.</span>
+                    </div>
+                    <div className="flex items-start">
+                      <div className="w-2 h-2 bg-indigo-600 rounded-full mr-3 mt-2 flex-shrink-0"></div>
+                      <span className="text-sm text-gray-700 leading-relaxed">It should be accessible, sustainable, and life-saving.</span>
+                    </div>
+                    <div className="flex items-start">
+                      <div className="w-2 h-2 bg-indigo-600 rounded-full mr-3 mt-2 flex-shrink-0"></div>
+                      <span className="text-sm text-gray-700 leading-relaxed">Our mission is built on purpose, not privilege.</span>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+            {/* AIRAVATH Heritage Section */}
+            <div className="hidden md:block bg-gradient-to-br from-gray-50 to-white border border-gray-200 rounded-xl p-8 md:p-12">
+              <p className="text-base md:text-lg text-gray-700 leading-relaxed mb-6">
+                AT AIRAVATH, OUR NAME UNITES HERITAGE AND VISION. INSPIRED BY THE MYTHICAL WHITE ELEPHANT OF LORD INDRA, IT SYMBOLIZES STRENGTH, GUARDIANSHIP, AND CONNECTION — PRINCIPLES WE BRING TO MODERN AVIATION.
               </p>
               
-              <div className="space-y-3">
-                <div className="flex items-start text-white/80 group-hover:text-white/90 transition-colors duration-300">
-                  <div className="w-2 h-2 bg-white rounded-full mr-3 mt-2 flex-shrink-0 group-hover:bg-white group-hover:scale-125 transition-all duration-300"></div>
-                  <span className="text-sm leading-relaxed">Flying shouldn't be a luxury.</span>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                  <h4 className="font-bold text-gray-900 mb-2">STRENGTH & RELIABILITY:</h4>
+                  <p className="text-gray-700">Trust, protection, and safety in the skies.</p>
                 </div>
-                <div className="flex items-start text-white/80 group-hover:text-white/90 transition-colors duration-300">
-                  <div className="w-2 h-2 bg-white rounded-full mr-3 mt-2 flex-shrink-0 group-hover:bg-white group-hover:scale-125 transition-all duration-300"></div>
-                  <span className="text-sm leading-relaxed">It should be accessible, sustainable, and life-saving.</span>
+                <div>
+                  <h4 className="font-bold text-gray-900 mb-2">INNOVATION:</h4>
+                  <p className="text-gray-700">AI-driven solutions shaping the future of aviation.</p>
                 </div>
-                <div className="flex items-start text-white/80 group-hover:text-white/90 transition-colors duration-300">
-                  <div className="w-2 h-2 bg-white rounded-full mr-3 mt-2 flex-shrink-0 group-hover:bg-white group-hover:scale-125 transition-all duration-300"></div>
-                  <span className="text-sm leading-relaxed">Our mission is built on purpose, not privilege.</span>
+                <div>
+                  <h4 className="font-bold text-gray-900 mb-2">SUSTAINABILITY:</h4>
+                  <p className="text-gray-700">Eco-friendly, safe, and responsible aerospace.</p>
                 </div>
+                <div>
+                  <h4 className="font-bold text-gray-900 mb-2">GLOBAL CONNECTIVITY:</h4>
+                  <p className="text-gray-700">Bridging people, places, and possibilities through flight.</p>
+                </div>
+              </div>
+            </div>
+
+            {/* Investment Section */}
+            <div className="mt-20 text-center">
+              <h2 className="text-4xl md:text-6xl font-bold text-gray-900 mb-4 uppercase tracking-wider">
+                SHAPE THE FUTURE WITH US
+              </h2>
+              <p className="text-2xl md:text-3xl text-gray-600 mb-12 font-light">
+                by supporting us today
+              </p>
+              
+              <div className="max-w-4xl mx-auto rounded-t-3xl overflow-hidden shadow-2xl">
+                <img 
+                  src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?q=80&w=2070" 
+                  alt="Air Taxi Future" 
+                  className="w-full h-auto object-cover"
+                />
               </div>
             </div>
 

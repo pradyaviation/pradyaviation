@@ -327,14 +327,14 @@ const Vehicle = () => {
   ];
 
   return (
-    <div className={`relative overflow-hidden bg-black ${
+    <div className={`relative overflow-hidden bg-white ${
       responsive.isVerySmall || responsive.isExtraSmall || responsive.isSmall 
         ? 'm-0 p-0' // Remove all margins and padding on mobile
         : ''
     }`}>
       {/* Ground Ports Section - Professional Background Video */}
       <section 
-        className={`relative overflow-hidden bg-black ${
+        className={`relative overflow-hidden bg-white ${
           responsive.isVerySmall || responsive.isExtraSmall || responsive.isSmall 
             ? 'h-screen' // Full viewport height on mobile to prevent gaps
             : 'min-h-screen' // Minimum height on desktop
@@ -385,13 +385,6 @@ const Vehicle = () => {
             Your browser does not support the video tag.
           </video>
         </div>
-
-        {/* Dark gradient overlay for text readability - Enhanced */}
-        <div className="absolute inset-0 bg-black/10 pointer-events-none z-10" />
-        <div className="absolute inset-0 bg-gradient-to-r from-black/50 via-black/30 to-black/50 pointer-events-none z-10" />
-        
-        {/* Subtle vignette effect */}
-        <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-black/40 pointer-events-none z-10" />
 
         {/* Content Overlay - Positioned lower and more to the left */}
         <div className={`relative z-20 h-full flex items-end justify-start ${
@@ -453,7 +446,7 @@ const Vehicle = () => {
                   specsSection.scrollIntoView({ behavior: 'smooth' });
                 }
               }}
-              className={`group relative inline-flex items-center bg-transparent border-2 border-white/30 text-white font-semibold tracking-wide transition-all duration-500 hover:border-white uppercase overflow-hidden ${
+              className={`group relative inline-flex items-center bg-transparent border-2 border-zinc-300 text-black font-semibold tracking-wide transition-all duration-500 hover:border-black uppercase overflow-hidden ${
                 responsive.isVerySmall ? 'px-6 py-3 text-xs' :
                 responsive.isExtraSmall ? 'px-8 py-4 text-sm' :
                 'px-10 py-5 text-sm'
@@ -464,15 +457,15 @@ const Vehicle = () => {
                 fontWeight: '600',
               }}
             >
-              {/* White hover animation background */}
-              <div className="absolute inset-0 bg-white transform -translate-x-full group-hover:translate-x-0 transition-transform duration-500 ease-out"></div>
+              {/* Black hover animation background */}
+              <div className="absolute inset-0 bg-black transform -translate-x-full group-hover:translate-x-0 transition-transform duration-500 ease-out"></div>
               
               {/* Button content */}
               <div className="relative z-10 flex items-center">
-                <span className="mr-3 group-hover:text-black transition-colors duration-500">Explore Infrastructure</span>
+                <span className="mr-3 group-hover:text-white transition-colors duration-500">Explore Infrastructure</span>
                 <ArrowRight 
                   size={responsive.isVerySmall ? 14 : responsive.isExtraSmall ? 16 : 18} 
-                  className="group-hover:translate-x-2 group-hover:text-black transition-all duration-500" 
+                  className="group-hover:translate-x-2 group-hover:text-white transition-all duration-500" 
                 />
               </div>
             </button>
@@ -482,8 +475,8 @@ const Vehicle = () => {
         {/* Scroll Indicator - Moved closer to bottom */}
         <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 z-10">
           <div className="animate-bounce">
-            <div className="w-6 h-10 border-2 border-white/30 rounded-full flex justify-center">
-              <div className="w-1 h-3 bg-white/60 rounded-full mt-2 animate-pulse"></div>
+            <div className="w-6 h-10 border-2 border-zinc-400 rounded-full flex justify-center">
+              <div className="w-1 h-3 bg-zinc-700 rounded-full mt-2 animate-pulse"></div>
             </div>
           </div>
         </div>
@@ -555,13 +548,6 @@ const Vehicle = () => {
           </video>
         </div>
         
-        {/* Dark gradient overlay for text readability - Enhanced */}
-        <div className="absolute inset-0 bg-black/15 pointer-events-none z-10" />
-        <div className="absolute inset-0 bg-gradient-to-l from-black/50 via-black/20 to-black/50 pointer-events-none z-10" />
-        
-        {/* Subtle vignette effect */}
-        <div className="absolute inset-0 bg-gradient-to-b from-black/10 via-transparent to-black/20 pointer-events-none z-10" />
-        
         {/* Content Overlay - Aligned to the right with mobile-specific spacing */}
         <div className={`relative z-20 h-full flex items-center justify-end ${
           responsive.isVerySmall || responsive.isExtraSmall || responsive.isSmall 
@@ -622,7 +608,7 @@ const Vehicle = () => {
                   specsSection.scrollIntoView({ behavior: 'smooth' });
                 }
               }}
-              className={`group relative inline-flex items-center bg-transparent border-2 border-white/30 text-white font-semibold tracking-wide transition-all duration-500 hover:border-white uppercase overflow-hidden ${
+              className={`group relative inline-flex items-center bg-transparent border-2 border-zinc-300 text-black font-semibold tracking-wide transition-all duration-500 hover:border-black uppercase overflow-hidden ${
                 responsive.isVerySmall ? 'px-6 py-3 text-xs' :
                 responsive.isExtraSmall ? 'px-8 py-4 text-sm' :
                 'px-10 py-5 text-sm'
@@ -633,13 +619,13 @@ const Vehicle = () => {
                 fontWeight: '600',
               }}
             >
-              {/* White hover animation background */}
-              <div className="absolute inset-0 bg-white transform -translate-x-full group-hover:translate-x-0 transition-transform duration-500 ease-out"></div>
+              {/* Black hover animation background */}
+              <div className="absolute inset-0 bg-black transform -translate-x-full group-hover:translate-x-0 transition-transform duration-500 ease-out"></div>
               
               {/* Button content */}
               <div className="relative z-10 flex items-center">
-                <span className="mr-3 group-hover:text-black transition-colors duration-500">City Infrastructure</span>
-                <ArrowRight className="w-4 h-4 transform group-hover:translate-x-1 group-hover:text-black transition-all duration-300" />
+                <span className="mr-3 group-hover:text-white transition-colors duration-500">City Infrastructure</span>
+                <ArrowRight className="w-4 h-4 transform group-hover:translate-x-1 group-hover:text-white transition-all duration-300" />
               </div>
             </button>
           </div>
@@ -712,13 +698,6 @@ const Vehicle = () => {
           </video>
         </div>
         
-        {/* Dark gradient overlay for text readability - Enhanced */}
-        <div className="absolute inset-0 bg-black/15 pointer-events-none z-10" />
-        <div className="absolute inset-0 bg-gradient-to-r from-black/50 via-black/20 to-black/50 pointer-events-none z-10" />
-        
-        {/* Subtle vignette effect */}
-        <div className="absolute inset-0 bg-gradient-to-b from-black/10 via-transparent to-black/20 pointer-events-none z-10" />
-        
         {/* Content Overlay - Positioned lower and more to the left */}
         <div className={`relative z-20 h-full flex items-end justify-start ${
           responsive.isVerySmall || responsive.isExtraSmall || responsive.isSmall 
@@ -779,7 +758,7 @@ const Vehicle = () => {
                   specsSection.scrollIntoView({ behavior: 'smooth' });
                 }
               }}
-              className={`group relative inline-flex items-center bg-transparent border-2 border-white/30 text-white font-semibold tracking-wide transition-all duration-500 hover:border-white uppercase overflow-hidden ${
+              className={`group relative inline-flex items-center bg-transparent border-2 border-zinc-300 text-black font-semibold tracking-wide transition-all duration-500 hover:border-black uppercase overflow-hidden ${
                 responsive.isVerySmall ? 'px-6 py-3 text-xs' :
                 responsive.isExtraSmall ? 'px-8 py-4 text-sm' :
                 'px-10 py-5 text-sm'
@@ -790,13 +769,13 @@ const Vehicle = () => {
                 fontWeight: '600',
               }}
             >
-              {/* White hover animation background */}
-              <div className="absolute inset-0 bg-white transform -translate-x-full group-hover:translate-x-0 transition-transform duration-500 ease-out"></div>
+              {/* Black hover animation background */}
+              <div className="absolute inset-0 bg-black transform -translate-x-full group-hover:translate-x-0 transition-transform duration-500 ease-out"></div>
               
               {/* Button content */}
               <div className="relative z-10 flex items-center">
-                <span className="mr-3 group-hover:text-black transition-colors duration-500">Network Integration</span>
-                <ArrowRight className="w-4 h-4 transform group-hover:translate-x-1 group-hover:text-black transition-all duration-300" />
+                <span className="mr-3 group-hover:text-white transition-colors duration-500">Network Integration</span>
+                <ArrowRight className="w-4 h-4 transform group-hover:translate-x-1 group-hover:text-white transition-all duration-300" />
               </div>
             </button>
           </div>
@@ -816,12 +795,12 @@ const Vehicle = () => {
           backgroundSize: 'contain',
           backgroundPosition: 'center right',
           backgroundRepeat: 'no-repeat',
-          backgroundColor: 'black'
+          backgroundColor: 'white'
         }}
       >
         {/* Minimal overlay to ensure image visibility */}
-        <div className="absolute inset-0 bg-black/10 pointer-events-none z-10" />
-        <div className="absolute inset-0 bg-gradient-to-r from-black/30 via-transparent to-black/20 pointer-events-none z-10" />
+        <div className="absolute inset-0 bg-white/10 pointer-events-none z-10" />
+        <div className="absolute inset-0 bg-gradient-to-r from-white/30 via-transparent to-white/20 pointer-events-none z-10" />
         
         {/* Content wrapper with relative positioning */}
         <div className="relative z-20 w-full">
@@ -832,10 +811,10 @@ const Vehicle = () => {
             <div className="flex-1 w-full lg:w-1/2">
               {/* Header */}
               <div className="mb-8">
-                <h2 className="text-2xl font-light text-white mb-2 uppercase tracking-widest">
+                <h2 className="text-2xl font-light text-black mb-2 uppercase tracking-widest">
                   AIRAVATH VTOL
                 </h2>
-                <h1 className="text-4xl font-semibold text-white uppercase tracking-widest">
+                <h1 className="text-4xl font-semibold text-black uppercase tracking-widest">
                   OVERVIEW
                 </h1>
               </div>
@@ -843,84 +822,84 @@ const Vehicle = () => {
               {/* Specifications List */}
               <div ref={specsContentRef} className="space-y-4">
                 {/* Height */}
-                <div className="spec-card flex justify-between items-center py-3 border-b border-white/20">
+                <div className="spec-card flex justify-between items-center py-3 border-b border-zinc-300">
                   <div>
-                    <h3 className="text-white text-sm font-light uppercase tracking-wider">
+                    <h3 className="text-black text-sm font-light uppercase tracking-wider">
                       PASSENGER CAPACITY
                     </h3>
                   </div>
                   <div className="text-right">
-                    <span className="text-white text-lg font-light">
+                    <span className="text-zinc-800 text-lg font-light">
                       4 - 6 Passengers
                     </span>
                   </div>
                 </div>
 
                 {/* Diameter */}
-                <div className="spec-card flex justify-between items-center py-3 border-b border-white/20">
+                <div className="spec-card flex justify-between items-center py-3 border-b border-zinc-300">
                   <div>
-                    <h3 className="text-white text-sm font-light uppercase tracking-wider">
+                    <h3 className="text-black text-sm font-light uppercase tracking-wider">
                       MAXIMUM SPEED
                     </h3>
                   </div>
                   <div className="text-right">
-                    <span className="text-white text-lg font-light">
+                    <span className="text-zinc-800 text-lg font-light">
                       250 km/h to 300 km/h
                     </span>
                   </div>
                 </div>
 
                 {/* Mass */}
-                <div className="spec-card flex justify-between items-center py-3 border-b border-white/20">
+                <div className="spec-card flex justify-between items-center py-3 border-b border-zinc-300">
                   <div>
-                    <h3 className="text-white text-sm font-light uppercase tracking-wider">
+                    <h3 className="text-black text-sm font-light uppercase tracking-wider">
                       RANGE
                     </h3>
                   </div>
                   <div className="text-right">
-                    <span className="text-white text-lg font-light">
+                    <span className="text-zinc-800 text-lg font-light">
                       150 - 200 km
                     </span>
                   </div>
                 </div>
 
                 {/* Payload Capacity */}
-                <div className="spec-card flex justify-between items-center py-3 border-b border-white/20">
+                <div className="spec-card flex justify-between items-center py-3 border-b border-zinc-300">
                   <div>
-                    <h3 className="text-white text-sm font-light uppercase tracking-wider">
+                    <h3 className="text-black text-sm font-light uppercase tracking-wider">
                       CHARGING TIME 
                     </h3>
                   </div>
                   <div className="text-right">
-                    <span className="text-white text-lg font-light">
+                    <span className="text-zinc-800 text-lg font-light">
                       30 minutes
                     </span>
                   </div>
                 </div>
 
                 {/* Range */}
-                <div className="spec-card flex justify-between items-center py-3 border-b border-white/20">
+                <div className="spec-card flex justify-between items-center py-3 border-b border-zinc-300">
                   <div>
-                    <h3 className="text-white text-sm font-light uppercase tracking-wider">
+                    <h3 className="text-black text-sm font-light uppercase tracking-wider">
                       SAFETY RATING
                     </h3>
                   </div>
                   <div className="text-right">
-                    <span className="text-white text-lg font-light">
+                    <span className="text-zinc-800 text-lg font-light">
                       LEVEL 5
                     </span>
                   </div>
                 </div>
 
                 {/* Maximum Speed */}
-                <div className="spec-card flex justify-between items-center py-3 border-b border-white/20">
+                <div className="spec-card flex justify-between items-center py-3 border-b border-zinc-300">
                   <div>
-                    <h3 className="text-white text-sm font-light uppercase tracking-wider">
+                    <h3 className="text-black text-sm font-light uppercase tracking-wider">
                       PROPULSION
                     </h3>
                   </div>
                   <div className="text-right">
-                    <span className="text-white text-lg font-light">
+                    <span className="text-zinc-800 text-lg font-light">
                       ELECTRIC ROTORS
                     </span>
                   </div>
@@ -940,36 +919,37 @@ const Vehicle = () => {
       </section>
 
       {/* Technology Features Section */}
-      <section className="relative py-24 bg-gradient-to-b from-black to-airavata-gray/10">
+      <section className="relative py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Header */}
-          <div className="text-center mb-20">
-            <h2 className="text-5xl font-bold text-white mb-6 uppercase tracking-wider">
-              Advanced Technology
+          <div className="mb-16">
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-2" style={{ fontFamily: 'Poppins, sans-serif' }}>
+              A 360-DEGREE APPROACH
             </h2>
-            <p className="text-xl text-white/80 font-medium tracking-wide max-w-3xl mx-auto">
-              Revolutionary technologies powering the next generation of urban air mobility.
+            <p className="text-lg text-gray-600" style={{ fontFamily: 'Poppins, sans-serif', fontWeight: '300' }}>
+              Technological, Regulatory, and Societal Efforts
             </p>
-            <div className="w-32 h-0.5 bg-airavata-blue mx-auto mt-8"></div>
           </div>
 
           {/* Technology Features Grid */}
-          <div ref={techContentRef} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-20">
+          <div ref={techContentRef} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 mb-20">
             {technologyFeatures.map((feature, index) => (
               <div 
                 key={index}
-                className="tech-card group bg-airavata-gray/20 backdrop-blur-sm border border-airavata-gray rounded-lg p-6 hover:border-white/50 hover:bg-white/10 hover:shadow-2xl hover:shadow-white/20 transition-all duration-500 hover:scale-105 cursor-pointer"
+                className="tech-card group"
               >
-                {/* Icon */}
-                <div className="text-4xl mb-6 group-hover:scale-110 transition-transform duration-300">
-                  {feature.icon}
+                {/* Icon with background box */}
+                <div className="w-20 h-20 bg-gray-50 rounded-sm flex items-center justify-center mb-6">
+                  <span className="text-4xl" style={{ filter: 'grayscale(100%)' }}>
+                    {feature.icon}
+                  </span>
                 </div>
                 
                 {/* Content */}
-                <h3 className="text-white font-bold text-xl mb-4 tracking-wide group-hover:text-white group-hover:scale-105 transition-all duration-300 uppercase">
+                <h3 className="text-gray-900 font-semibold text-lg mb-3 leading-tight" style={{ fontFamily: 'Poppins, sans-serif' }}>
                   {feature.title}
                 </h3>
-                <p className="text-white/80 leading-relaxed text-sm group-hover:text-white/90 transition-colors duration-300">
+                <p className="text-blue-900 leading-relaxed text-base" style={{ fontFamily: 'Poppins, sans-serif', fontWeight: '400' }}>
                   {feature.description}
                 </p>
               </div>
@@ -978,11 +958,11 @@ const Vehicle = () => {
 
           {/* Call to Action */}
           <div className="text-center">
-            <div className="bg-gradient-to-r from-airavata-blue/10 to-transparent backdrop-blur-sm border border-airavata-blue/20 rounded-2xl p-12 max-w-4xl mx-auto">
-              <h3 className="text-3xl font-bold text-white mb-4 uppercase tracking-wider">
+            <div className="bg-gradient-to-r from-blue-100 to-transparent backdrop-blur-sm border border-blue-300 rounded-2xl p-12 max-w-4xl mx-auto">
+              <h3 className="text-3xl font-bold text-black mb-4 uppercase tracking-wider">
                 Experience the Future
               </h3>
-              <p className="text-lg text-white/80 mb-8 max-w-2xl mx-auto">
+              <p className="text-lg text-zinc-700 mb-8 max-w-2xl mx-auto">
                 Ready to learn more about how our vehicles will transform urban transportation? Explore our services and mission.
               </p>
               
@@ -990,7 +970,7 @@ const Vehicle = () => {
                 {/* Services Button */}
                 <button 
                   onClick={() => navigate('/air-taxi')}
-                  className="group relative inline-flex items-center px-10 py-5 bg-airavata-blue text-black font-semibold tracking-wide transition-all duration-500 hover:bg-airavata-blue/90 hover:shadow-lg hover:shadow-airavata-blue/25 uppercase overflow-hidden transform hover:scale-105"
+                  className="group relative inline-flex items-center px-10 py-5 bg-blue-600 text-white font-semibold tracking-wide transition-all duration-500 hover:bg-blue-700 hover:shadow-lg hover:shadow-blue-600/25 uppercase overflow-hidden transform hover:scale-105"
                 >
                   <span className="mr-3">View Services</span>
                   <ArrowRight size={18} className="group-hover:translate-x-2 transition-transform duration-500" />
@@ -999,10 +979,10 @@ const Vehicle = () => {
                 {/* Mission Button */}
                 <button 
                   onClick={() => navigate('/mission')}
-                  className="group relative inline-flex items-center px-10 py-5 bg-transparent border-2 border-white/30 text-white font-semibold tracking-wide transition-all duration-500 hover:border-white hover:bg-white hover:text-black uppercase overflow-hidden transform hover:scale-105"
+                  className="group relative inline-flex items-center px-10 py-5 bg-transparent border-2 border-zinc-300 text-black font-semibold tracking-wide transition-all duration-500 hover:border-black hover:bg-black hover:text-white uppercase overflow-hidden transform hover:scale-105"
                 >
                   <span className="mr-3">Our Mission</span>
-                  <ArrowRight size={18} className="group-hover:translate-x-2 group-hover:text-black transition-all duration-500" />
+                  <ArrowRight size={18} className="group-hover:translate-x-2 group-hover:text-white transition-all duration-500" />
                 </button>
               </div>
             </div>

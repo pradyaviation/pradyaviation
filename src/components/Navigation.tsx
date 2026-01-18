@@ -14,8 +14,8 @@ const Navigation = () => {
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
       
-      // Set scrolled state for styling
-      setScrolled(currentScrollY > 50);
+      // Set scrolled state for styling - trigger immediately on any scroll
+      setScrolled(currentScrollY > 10);
       
       // Show/hide menu button based on scroll direction
       if (currentScrollY < 100) {

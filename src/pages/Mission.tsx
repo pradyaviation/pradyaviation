@@ -114,10 +114,12 @@ const Mission = () => {
       <div 
         className="absolute inset-0 bg-cover bg-center bg-no-repeat"
         style={{
-          backgroundImage: `url('./mission 1page.avif')`,
+          backgroundImage: `url('./mission-hero-bg.png')`,
           top: '4rem', // Push background down to account for navbar height
         }}
       >
+        {/* Light gradient overlay */}
+        <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/20 to-transparent"></div>
       </div>
 
       {/* Content area - ready for your content */}
@@ -196,7 +198,7 @@ const Mission = () => {
     </div>
     
   {/* Second Section - The Problem We're Solving */}
-  <div className="w-full h-screen relative flex items-center justify-center overflow-x-hidden">
+  <div className="w-full h-screen relative flex items-center justify-end overflow-x-hidden">
       {/* Background Image */}
       <div 
         className="absolute inset-0 bg-cover bg-center bg-no-repeat"
@@ -208,7 +210,7 @@ const Mission = () => {
         <div className="absolute inset-0 bg-black/60"></div>
       </div>
       
-  <div ref={secondSectionRef} className="relative z-10 w-full px-4 sm:px-8 max-w-3xl text-center">
+  <div ref={secondSectionRef} className="relative z-10 w-full px-4 sm:px-8 max-w-3xl text-right">
         <h2 
           className="text-white mb-6"
           style={{
@@ -221,10 +223,10 @@ const Mission = () => {
             lineHeight: '1.2',
           }}
         >
-          You’ve Been Here Before
+          You've Been Here Before
         </h2>
         
-  <div className="w-32 h-0.5 bg-white mb-8 mx-auto"></div>
+  <div className="w-32 h-0.5 bg-white mb-8 ml-auto"></div>
         
         {/* Mobile content (shorter) */}
   <div className="block sm:hidden">
@@ -279,7 +281,7 @@ const Mission = () => {
         </div>
         
         {/* Call-to-Action Button */}
-  <div className="flex justify-center">
+  <div className="flex justify-end">
           <button 
             onClick={scrollToSolution}
             className="group relative inline-flex items-center px-10 py-5 bg-transparent border-2 border-white/30 text-white font-semibold tracking-wide transition-all duration-500 hover:border-white uppercase text-sm overflow-hidden"

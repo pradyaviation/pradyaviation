@@ -7,14 +7,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { toast } from '@/hooks/use-toast';
-import { useOptimizedMedia } from '@/hooks/use-optimized-media';
 import { ArrowRight, ChevronDown, Calendar, Plane, Building, MapPin, Globe, Phone, Mail, Send } from 'lucide-react';
-
-// Import refactored components
-import HeroSection from '@/components/HeroSection';
-import ContentSection from '@/components/ContentSection';
-import { FeaturesSection } from '@/components/FeaturesSection';
-import ContactFormSection from '@/components/ContactFormSection';
 
 // Import styles
 import '@/styles/responsive.css';
@@ -23,7 +16,6 @@ gsap.registerPlugin(ScrollTrigger);
 
 const Home = () => {
   const navigate = useNavigate();
-  const { isMobile } = useOptimizedMedia();
   
   // Refs for animations
   const scrollIndicatorRef = useRef<HTMLDivElement>(null);

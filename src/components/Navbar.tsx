@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, useLocation, Link } from 'react-router-dom';
-import { Menu, X } from 'lucide-react';
+import { Menu, X, Globe } from 'lucide-react';
 import { useResponsive } from '@/hooks/use-responsive';
 
 const Navbar = () => {
@@ -13,33 +13,20 @@ const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const navItems = [
-    { path: '/', label: 'Home' },
-    { path: '/about', label: 'About' },
-    { path: '/mission', label: 'Our Mission' },
-    { path: '/vehicle', label: 'Vehicle' },
-    { path: '/air-taxi', label: 'Services' },
-    { path: '/objectives', label: 'Future Objectives' },
-    { path: '/contact', label: 'Contact' },
+    { path: '/air-taxi', label: 'AIR MOBILITY' },
+    { path: '/vehicle', label: 'SOLUTIONS' },
+    { path: '/about', label: 'ABOUT' },
+    { path: '/objectives', label: 'TIME LINE' },
+    { path: '/contact', label: 'CONTACT' },
   ];
 
   useEffect(() => {
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
+      const heroHeight = window.innerHeight * 0.8; // 80% of viewport height
       
-      // Set scrolled state for styling
-      setScrolled(currentScrollY > 50);
-      
-      // Show/hide navbar based on scroll direction
-      if (currentScrollY < 100) {
-        // Always show navbar at the top
-        setVisible(true);
-      } else if (currentScrollY > lastScrollY) {
-        // Scrolling down - hide navbar
-        setVisible(false);
-      } else {
-        // Scrolling up - show navbar
-        setVisible(true);
-      }
+      // Set scrolled state when past hero section
+      setScrolled(currentScrollY > heroHeight);
       
       setLastScrollY(currentScrollY);
     };
@@ -119,67 +106,98 @@ const Navbar = () => {
 
   // Check if current page is Vehicle
   const isVehiclePage = location.pathname === '/vehicle';
+  const isObjectivesPage = location.pathname === '/objectives';
 
   return (
     <>
-      <nav className={`fixed top-0 left-0 right-0 z-30 transition-all duration-300 transform ${
-        visible ? 'translate-y-0' : '-translate-y-full'
-      } ${
-        isVehiclePage 
-          ? 'bg-transparent backdrop-blur-none shadow-none border-none' 
-          : scrolled 
-            ? 'lg:bg-transparent lg:backdrop-blur-none lg:shadow-none lg:border-none bg-black/90 backdrop-blur-md shadow-xl border-b border-gray-700' 
-            : 'bg-transparent backdrop-blur-none'
+      {/* Premium Navbar - Transparent in hero, White after scroll */}
+      <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
+        scrolled ? 'bg-white shadow-md' : 'bg-transparent'
       }`}>
-        <div className={`max-w-7xl mx-auto ${getPadding()}`}>
-          <div className={`flex items-center justify-between ${getNavbarHeight()}`}>
-            {/* Logo */}
-            <div className="flex-shrink-0 py-1 sm:py-2">
-              <Link to="/" className="flex items-center hover:opacity-80 transition-opacity duration-200">
-                <img 
-                  src="/aira-vath-logo.png" 
-                  alt="AIRAVATH Logo" 
-                  className="w-auto object-contain"
-                  style={getLogoSize()}
-                />
+        <div className="max-w-[1920px] mx-auto px-6 sm:px-8 lg:px-12">
+          <div className="flex items-center justify-between h-20 lg:h-24">
+            
+            {/* Logo - Left */}
+            <div className="flex-shrink-0">
+              <Link 
+                to="/" 
+                className="flex items-center gap-2 hover:opacity-80 transition-opacity duration-300"
+              >
+                {/* Logo Icon */}
+                <div className="w-24 h-12 sm:w-32 sm:h-14 lg:w-40 lg:h-16 flex items-center justify-center">
+                  <img 
+                    src="/aira-vath-logo.png" 
+                    alt="AIRAVATH" 
+                    className="w-full h-full object-contain transition-all duration-500"
+                    style={{ filter: (scrolled || isObjectivesPage) ? 'none' : 'brightness(0) invert(1)' }}
+                  />
+                </div>
               </Link>
             </div>
 
-            {/* Mobile Hamburger Menu Button - Hidden on desktop */}
-            <div className="lg:hidden">
-              <button
-                onClick={toggleMenu}
-                className={`rounded-md text-white hover:text-gray-300 transition-colors touch-manipulation ${
-                  responsive.isVerySmall ? 'p-1' : 'p-2'
-                }`}
-                aria-label="Toggle navigation menu"
-                style={{ minHeight: '48px', minWidth: '48px' }}
-              >
-                {isMenuOpen ? (
-                  <X size={responsive.isVerySmall ? 18 : responsive.isExtraSmall ? 20 : 24} />
-                ) : (
-                  <Menu size={responsive.isVerySmall ? 18 : responsive.isExtraSmall ? 20 : 24} />
-                )}
-              </button>
-            </div>
-            
-            {/* Desktop Navigation - Hidden on mobile */}
-            <div className="hidden lg:block">
-              <div className="ml-10 flex items-baseline space-x-6">
+            {/* Desktop Navigation - Center */}
+            <div className="hidden lg:flex items-center justify-center flex-1">
+              <div className="flex items-center space-x-8 xl:space-x-12">
                 {navItems.map((item) => (
                   <button
                     key={item.path}
                     onClick={() => handleNavClick(item.path)}
-                    className={`px-4 py-2 text-sm font-medium uppercase tracking-wider transition-all duration-300 border-b-2 hover:scale-105 ${
-                      location.pathname === item.path
-                        ? 'text-white border-white'
-                        : 'text-gray-300 border-transparent hover:text-white hover:border-gray-400'
+                    className={`relative text-sm font-medium tracking-wider transition-all duration-500 py-2 group ${
+                      (scrolled || isObjectivesPage)
+                        ? 'text-slate-700 hover:text-slate-900' 
+                        : 'text-white/90 hover:text-white'
+                    } ${
+                      location.pathname === item.path 
+                        ? ((scrolled || isObjectivesPage) ? 'text-slate-900' : 'text-white') 
+                        : ''
                     }`}
+                    style={{
+                      fontFamily: "'Inter', system-ui, sans-serif",
+                      letterSpacing: '0.1em',
+                    }}
                   >
                     {item.label}
+                    {/* Active/Hover Underline */}
+                    <span className={`absolute bottom-0 left-0 h-0.5 transition-all duration-300 ${
+                      (scrolled || isObjectivesPage) ? 'bg-slate-900' : 'bg-white'
+                    } ${
+                      location.pathname === item.path ? 'w-full' : 'w-0 group-hover:w-full'
+                    }`} />
                   </button>
                 ))}
               </div>
+            </div>
+
+            {/* Right Side - Globe & Hamburger */}
+            <div className="flex items-center gap-4 sm:gap-6">
+              {/* Globe Icon - Desktop */}
+              <button 
+                className={`hidden lg:flex items-center justify-center w-10 h-10 rounded-full border transition-all duration-500 ${
+                  (scrolled || isObjectivesPage)
+                    ? 'border-slate-300 text-slate-600 hover:text-slate-900 hover:border-slate-400' 
+                    : 'border-white/30 text-white/80 hover:text-white hover:border-white/60'
+                }`}
+                aria-label="Language selector"
+              >
+                <Globe size={18} />
+              </button>
+
+              {/* Premium Hamburger Menu Button */}
+              <button
+                onClick={toggleMenu}
+                className={`flex items-center justify-center w-12 h-12 sm:w-14 sm:h-14 rounded-full border-2 transition-all duration-500 ${
+                  (scrolled || isObjectivesPage)
+                    ? 'border-slate-800 bg-slate-800 text-white hover:bg-slate-900' 
+                    : 'border-white/30 bg-white/5 backdrop-blur-sm text-white hover:bg-white/10 hover:border-white/50'
+                }`}
+                aria-label="Toggle navigation menu"
+              >
+                {isMenuOpen ? (
+                  <X size={20} strokeWidth={2} />
+                ) : (
+                  <Menu size={20} strokeWidth={2} />
+                )}
+              </button>
             </div>
           </div>
         </div>
@@ -188,87 +206,100 @@ const Navbar = () => {
       {/* Mobile Menu Overlay */}
       {isMenuOpen && (
         <div
-          className="fixed inset-0 bg-black/60 z-40 transition-opacity duration-300 lg:hidden backdrop-blur-sm"
+          className="fixed inset-0 bg-black/70 z-40 transition-opacity duration-500 backdrop-blur-md"
           onClick={closeMenu}
         />
       )}
 
-      {/* Enhanced Mobile Slide-in Menu */}
+      {/* Premium Full-Screen Mobile Menu */}
       <div
-        className={`fixed top-0 right-0 h-full z-50 transform transition-transform duration-300 ease-in-out lg:hidden ${
-          isMenuOpen ? 'translate-x-0' : 'translate-x-full'
-        } ${
-          responsive.isVerySmall || responsive.isExtraSmall ? 'w-full' : 
-          responsive.isSmall ? 'w-4/5 max-w-sm' : 
-          'w-80'
-        } bg-black/95 backdrop-blur-md border-l border-gray-700`}
+        className={`fixed inset-0 z-50 transform transition-all duration-500 ease-out ${
+          isMenuOpen ? 'translate-x-0 opacity-100' : 'translate-x-full opacity-0'
+        } bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900`}
       >
-        <div className="flex flex-col h-full safe-area-padding">
-          {/* Close Button */}
-          <div className={`flex justify-end items-center ${
-            responsive.isVerySmall ? 'p-3 h-12' : 
-            responsive.isExtraSmall ? 'p-4 h-14' : 
-            'p-4 h-16'
-          }`}>
+        <div className="flex flex-col h-full">
+          {/* Header with Close Button */}
+          <div className="flex items-center justify-between px-6 sm:px-8 h-20 lg:h-24">
+            {/* Logo in menu */}
+            <Link 
+              to="/" 
+              className="flex items-center gap-2"
+              onClick={closeMenu}
+            >
+              <div className="w-8 h-8 sm:w-10 sm:h-10">
+                <img 
+                  src="/aira-vath-logo.png" 
+                  alt="AIRAVATH" 
+                  className="w-full h-full object-contain"
+                  style={{ filter: 'brightness(0) invert(1)' }}
+                />
+              </div>
+              <span className="text-white font-bold tracking-wide text-lg sm:text-xl">
+                AIRAVATH
+              </span>
+            </Link>
+            
+            {/* Close Button */}
             <button
               onClick={closeMenu}
-              className="text-white hover:text-gray-300 transition-colors touch-manipulation flex items-center justify-center rounded-md"
-              style={{ minHeight: '48px', minWidth: '48px' }}
+              className="flex items-center justify-center w-12 h-12 sm:w-14 sm:h-14 rounded-full border-2 border-white/30 text-white hover:bg-white/10 hover:border-white/50 transition-all duration-300"
               aria-label="Close menu"
             >
-              <X size={responsive.isVerySmall ? 18 : responsive.isExtraSmall ? 20 : 24} />
+              <X size={20} strokeWidth={2} />
             </button>
           </div>
 
-          {/* Menu Items */}
-          <div className={`flex-1 flex flex-col justify-start ${
-            responsive.isVerySmall ? 'px-4 py-2 space-y-2' : 
-            responsive.isExtraSmall ? 'px-6 py-4 space-y-3' :
-            'px-8 py-6 space-y-4'
-          }`}>
-            {navItems.map((item, index) => (
+          {/* Menu Items - Centered */}
+          <div className="flex-1 flex flex-col items-center justify-center px-6 -mt-10">
+            <nav className="flex flex-col items-center space-y-6 sm:space-y-8">
+              {/* Home Link */}
               <button
-                key={item.path}
-                onClick={() => handleNavClick(item.path)}
-                className={`text-right border-b border-gray-700 transition-all duration-300 ease-out group transform touch-manipulation ${
-                  responsive.isVerySmall ? 'py-2' : 
-                  responsive.isExtraSmall ? 'py-3' : 
-                  'py-4'
-                } ${
-                  location.pathname === item.path
-                    ? 'text-white border-white bg-white/5'
-                    : 'text-gray-400 hover:text-white hover:border-gray-500 hover:bg-white/5'
-                } ${
-                  isMenuOpen 
-                    ? 'translate-y-0 opacity-100' 
-                    : '-translate-y-8 opacity-0'
-                } rounded-lg`}
+                onClick={() => { navigate('/'); closeMenu(); }}
+                className={`text-2xl sm:text-3xl lg:text-4xl font-light text-white/90 hover:text-white transition-all duration-300 tracking-wide ${
+                  location.pathname === '/' ? 'text-white' : ''
+                }`}
                 style={{
-                  fontFamily: 'Inter, system-ui, -apple-system, sans-serif',
-                  fontSize: responsive.isVerySmall ? '0.875rem' : 
-                           responsive.isExtraSmall ? '1rem' : 
-                           'clamp(0.875rem, 3vw, 1.125rem)',
-                  fontWeight: '500',
-                  letterSpacing: '0.1em',
-                  textTransform: 'uppercase',
-                  transitionDelay: isMenuOpen ? `${(index + 1) * 0.1}s` : '0s',
-                  transitionDuration: '0.4s',
-                  minHeight: '48px',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'flex-end',
-                  paddingRight: responsive.isVerySmall ? '1rem' : '1.5rem',
-                  paddingLeft: responsive.isVerySmall ? '1rem' : '1.5rem',
+                  fontFamily: "'Inter', system-ui, sans-serif",
+                  letterSpacing: '0.05em',
                 }}
               >
-                {item.label}
+                HOME
               </button>
-            ))}
+              
+              {navItems.map((item, index) => (
+                <button
+                  key={item.path}
+                  onClick={() => handleNavClick(item.path)}
+                  className={`text-2xl sm:text-3xl lg:text-4xl font-light text-white/90 hover:text-white transition-all duration-300 tracking-wide transform ${
+                    isMenuOpen ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
+                  } ${location.pathname === item.path ? 'text-white' : ''}`}
+                  style={{
+                    fontFamily: "'Inter', system-ui, sans-serif",
+                    letterSpacing: '0.05em',
+                    transitionDelay: isMenuOpen ? `${(index + 1) * 0.08}s` : '0s',
+                  }}
+                >
+                  {item.label}
+                </button>
+              ))}
+            </nav>
+          </div>
+
+          {/* Bottom Section - Social & Language */}
+          <div className="px-6 sm:px-8 py-8 flex items-center justify-between border-t border-white/10">
+            <div className="flex items-center gap-4">
+              <button 
+                className="flex items-center justify-center w-10 h-10 rounded-full border border-white/30 text-white/80 hover:text-white hover:border-white/60 transition-all duration-300"
+                aria-label="Language selector"
+              >
+                <Globe size={18} />
+              </button>
+              <span className="text-white/60 text-sm">English</span>
+            </div>
             
-            {/* Additional spacing for safe area on mobile devices with notches */}
-            {responsive.hasNotch && (
-              <div style={{ height: 'env(safe-area-inset-bottom)' }} />
-            )}
+            <p className="text-white/40 text-sm">
+              © 2025 AIRAVATH
+            </p>
           </div>
         </div>
       </div>

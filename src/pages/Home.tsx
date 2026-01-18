@@ -1,5 +1,5 @@
 
-import { useRef, useEffect, useState } from 'react';
+import { useRef, useEffect, useState, useCallback } from 'react';
 import { ChevronDown, ArrowRight, Calendar, MapPin, Plane, Building, Globe, Mail, Phone, Send } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { gsap } from 'gsap';
@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { toast } from '@/hooks/use-toast';
+import Footer from '@/components/Footer';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -28,6 +29,9 @@ const Home = () => {
   const contactHeaderRef = useRef<HTMLDivElement>(null);
   const contactFormRef = useRef<HTMLDivElement>(null);
   
+  // Feature section scroll-lock ref
+  const featureSectionRef = useRef<HTMLElement>(null);
+  
   // Contact form state
   const [formData, setFormData] = useState({
     name: '',
@@ -37,6 +41,80 @@ const Home = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   // Track mobile breakpoint so we can avoid rendering large/heavy sections on small screens
   const [isMobile, setIsMobile] = useState(false);
+  
+  // Scroll-controlled feature cards state
+  const [activeFeatureCard, setActiveFeatureCard] = useState(0);
+  const featureCardsContainerRef = useRef<HTMLDivElement>(null);
+  const featureCard1Ref = useRef<HTMLDivElement>(null);
+  const featureCard2Ref = useRef<HTMLDivElement>(null);
+  const featureCard3Ref = useRef<HTMLDivElement>(null);
+
+  // Slideshow state
+  const [currentSlide, setCurrentSlide] = useState(0);
+  const [customCursor, setCustomCursor] = useState({ x: 0, y: 0, visible: false });
+  const slideshowRef = useRef<HTMLDivElement>(null);
+
+  const slideshowImages = [
+    '/slideshow-1.jpg',
+    '/slideshow-2.jpg',
+  ];
+
+  // GSAP ScrollTrigger for feature cards - scroll changes active card based on which card is in view
+  useEffect(() => {
+    const card1 = featureCard1Ref.current;
+    const card2 = featureCard2Ref.current;
+    const card3 = featureCard3Ref.current;
+    if (!card1 || !card2 || !card3) return;
+
+    // Create scroll triggers for each card - activate when card enters viewport center
+    const ctx = gsap.context(() => {
+      ScrollTrigger.create({
+        trigger: card1,
+        start: 'top 60%',
+        end: 'bottom 40%',
+        onEnter: () => setActiveFeatureCard(0),
+        onEnterBack: () => setActiveFeatureCard(0),
+      });
+
+      ScrollTrigger.create({
+        trigger: card2,
+        start: 'top 60%',
+        end: 'bottom 40%',
+        onEnter: () => setActiveFeatureCard(1),
+        onEnterBack: () => setActiveFeatureCard(1),
+      });
+
+      ScrollTrigger.create({
+        trigger: card3,
+        start: 'top 60%',
+        end: 'bottom 40%',
+        onEnter: () => setActiveFeatureCard(2),
+        onEnterBack: () => setActiveFeatureCard(2),
+      });
+    });
+
+    return () => ctx.revert();
+  }, []);
+
+  // Slideshow handlers
+  const handleSlideshowClick = () => {
+    setCurrentSlide((prev) => (prev + 1) % slideshowImages.length);
+  };
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (slideshowRef.current) {
+      const rect = slideshowRef.current.getBoundingClientRect();
+      setCustomCursor({
+        x: e.clientX - rect.left,
+        y: e.clientY - rect.top,
+        visible: true,
+      });
+    }
+  };
+
+  const handleMouseLeave = () => {
+    setCustomCursor({ ...customCursor, visible: false });
+  };
 
   useEffect(() => {
     // Scroll to top when component mounts
@@ -453,338 +531,654 @@ const Home = () => {
         }
       ` }} />
 
-    <div className="relative overflow-hidden pt-1">
-      {/* Cinematic Hero Section - Air Taxi Background */}
+    <div className="relative min-h-screen">
+      {/* Premium Hero Section - Fixed for Parallax Effect */}
       <section 
-        className="relative min-h-screen h-screen md:min-h-screen flex items-end justify-start overflow-hidden bg-black mobile-portrait-section"
+        className="fixed top-0 left-0 right-0 min-h-screen h-screen flex items-center justify-start overflow-hidden z-0"
         role="img"
-        aria-label="Futuristic medical air taxi aircraft"
+        aria-label="AIRAVATH - Pioneering Sustainable Air Mobility"
       >
-        {/* Background Video */}
-        <video 
-          className="absolute inset-0 w-full h-full md:object-cover mobile-portrait-video hero-video-shift"
+        {/* Hero Background Image */}
+        <div 
+          className="absolute inset-0 w-full h-full"
           style={{
-            objectFit: 'cover',
-            objectPosition: '50% center',
-            width: '100%',
-            height: '100%',
-            minHeight: '100vh',
-            minWidth: '100vw'
+            backgroundImage: `url('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80')`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            backgroundRepeat: 'no-repeat',
           }}
-          autoPlay 
-          loop 
-          muted 
-          playsInline
+        />
+        
+        {/* Elegant Blue Tint Overlay */}
+        <div className="absolute inset-0 bg-gradient-to-br from-sky-900/60 via-sky-800/40 to-transparent pointer-events-none"></div>
+        <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent pointer-events-none"></div>
+        
+        {/* Hero Content - Left Aligned */}
+        <div 
+          ref={heroContentRef} 
+          className="relative z-10 w-full max-w-7xl mx-auto px-6 sm:px-8 lg:px-16 flex flex-col justify-center min-h-screen"
         >
-          <source src="./videos/hero-background-video.mp4" type="video/mp4" />
-        </video>
-        
-        {/* Dark gradient overlay for text readability */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-black/40 to-black/30 pointer-events-none"></div>
-        
-        {/* Hero Two-Line Uppercase Text - Top Center on Mobile, Bottom-Left on Desktop */}
-        <div ref={heroContentRef} className="relative z-10 pb-1 pl-1 xxs:pb-2 xxs:pl-2 xs:pb-4 xs:pl-4 sm:pb-6 sm:pl-8 lg:pb-12 lg:pl-16 max-w-full xxs:max-w-xs xs:max-w-sm sm:max-w-3xl flex flex-col items-center sm:items-start justify-start pt-20 sm:justify-end sm:pt-0 min-h-screen sm:min-h-0" style={{ paddingBottom: 'clamp(0.5rem, 1.5vw, 2rem)', paddingLeft: 'clamp(0.25rem, 3vw, 1.5rem)' }}>
-          
-          {/* AIRAVATH Logo - Only visible on mobile screens */}
-          <div className="block sm:hidden mb-12 mt-8 flex flex-col justify-start items-start -ml-2 pl-0">
-            <img 
-              src="/aira-vath-logo.png" 
-              alt="AIRAVATH Logo" 
-              className="w-60 h-auto object-contain mb-4"
+          {/* Main Headline */}
+          <div className="max-w-4xl">
+            {/* Primary Text - Bold */}
+            <h1 
+              className="text-white font-bold tracking-tight mb-4"
               style={{
-                filter: 'drop-shadow(0 4px 12px rgba(0,0,0,0.6))'
+                fontFamily: "'Poppins', system-ui, sans-serif",
+                fontSize: 'clamp(2.5rem, 8vw, 5.5rem)',
+                fontWeight: '700',
+                lineHeight: '1.05',
+                letterSpacing: '-0.02em',
+                textTransform: 'uppercase',
               }}
-            />
+            >
+              WE PIONEER
+            </h1>
+            
+            {/* Secondary Text - Light/Italic Style */}
+            <p 
+              className="text-cyan-300/90"
+              style={{
+                fontFamily: "'Poppins', system-ui, sans-serif",
+                fontSize: 'clamp(1.5rem, 5vw, 3.5rem)',
+                fontWeight: '300',
+                lineHeight: '1.2',
+                letterSpacing: '0.01em',
+                fontStyle: 'italic',
+              }}
+            >
+              sustainable air mobility.
+            </p>
           </div>
         </div>
-        
-        {/* Scroll Indicator */}
-        <div ref={scrollIndicatorRef} className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-20">
-          <div className="flex flex-col items-center">
-            <ChevronDown 
-              size={24} 
-              className="text-white/60 animate-bounce cursor-pointer hover:text-blue-400 transition-colors duration-300" 
-              onClick={() => {
-                document.getElementById('content')?.scrollIntoView({ 
-                  behavior: 'smooth' 
-                });
+
+        {/* Scroll to Explore - Bottom Left */}
+        <div 
+          ref={scrollIndicatorRef} 
+          className="absolute bottom-8 sm:bottom-12 left-6 sm:left-8 lg:left-16 z-20 flex items-center gap-3 cursor-pointer group"
+          onClick={() => {
+            document.getElementById('air-taxi')?.scrollIntoView({ 
+              behavior: 'smooth' 
+            });
+          }}
+        >
+          <span 
+            className="text-white/80 uppercase tracking-widest text-xs sm:text-sm font-medium group-hover:text-white transition-colors duration-300"
+            style={{ letterSpacing: '0.2em' }}
+          >
+            Scroll to explore
+          </span>
+          <ChevronDown 
+            size={18} 
+            className="text-white/80 animate-bounce group-hover:text-white transition-colors duration-300" 
+          />
+        </div>
+
+        {/* Floating CTA Card - Bottom Right */}
+        <div 
+          className="hidden md:block absolute bottom-8 sm:bottom-12 right-6 sm:right-8 lg:right-16 z-20 bg-white rounded-2xl shadow-2xl overflow-hidden cursor-pointer group hover:shadow-3xl transition-all duration-500 hover:-translate-y-1"
+          onClick={() => navigate('/air-taxi')}
+          style={{
+            minWidth: '200px',
+            maxWidth: '280px',
+          }}
+        >
+          <div className="px-6 py-5">
+            <p 
+              className="text-gray-500 uppercase tracking-wider text-xs font-medium mb-1"
+              style={{ letterSpacing: '0.15em' }}
+            >
+              Discover our solutions
+            </p>
+            <div className="flex items-center justify-between">
+              <span className="text-gray-900 font-semibold text-base">
+                Learn more
+              </span>
+              <ArrowRight 
+                size={18} 
+                className="text-gray-400 group-hover:text-gray-900 group-hover:translate-x-1 transition-all duration-300" 
+              />
+            </div>
+          </div>
+        </div>
+
+        {/* Curved Bottom Edge - White Wave */}
+        <div className="hidden md:block absolute bottom-0 left-0 right-0 z-10">
+          <svg 
+            viewBox="0 0 1440 50" 
+            fill="none" 
+            xmlns="http://www.w3.org/2000/svg"
+            className="w-full h-auto"
+            preserveAspectRatio="none"
+          >
+            <path 
+              d="M0 50V35C120 15 240 5 360 10C480 15 600 30 720 35C840 40 960 35 1080 25C1200 15 1320 10 1440 20V50H0Z" 
+              fill="white"
+            />
+          </svg>
+        </div>
+      </section>
+
+      {/* Spacer to push content below fixed hero - transparent to show hero behind */}
+      <div className="h-screen w-full relative z-[1]" aria-hidden="true"></div>
+
+      {/* Scrollable Content Container - Scrolls over fixed hero and footer */}
+      <div className="relative z-10 bg-white">
+        {/* Elegant Curved Top Edge - Wave with ups and downs */}
+        <div className="hidden md:block absolute -top-6 lg:-top-10 left-0 right-0 z-10 pointer-events-none">
+          <svg 
+            viewBox="0 0 1440 50" 
+            fill="none" 
+            xmlns="http://www.w3.org/2000/svg"
+            className="w-full h-auto"
+            preserveAspectRatio="none"
+          >
+            <path 
+              d="M0 50V35C120 15 240 5 360 10C480 15 600 30 720 35C840 40 960 35 1080 25C1200 15 1320 10 1440 20V50H0Z" 
+              fill="white"
+            />
+          </svg>
+        </div>
+
+      {/* Volocopter-Style Features Section - White Background */}
+      <section 
+        ref={featureSectionRef}
+        id="air-taxi"
+        className="relative bg-white lg:py-16 -mt-1"
+      >
+        {/* Mobile: Curved Box Container */}
+        <div className="md:hidden bg-white mx-4 px-6 pt-8 pb-4 mb-8 -mt-24" style={{ borderTopLeftRadius: '6rem', borderTopRightRadius: '6rem' }}>
+          {/* Top Section - Tagline */}
+          <div className="mb-8">
+            <h2 
+              className="text-slate-600"
+              style={{
+                fontFamily: "'Poppins', system-ui, sans-serif",
+                fontSize: 'clamp(1.75rem, 3.5vw, 2.5rem)',
+                fontWeight: '400',
+                lineHeight: '1.3',
+                letterSpacing: '-0.01em',
               }}
+            >
+              AIRAVATH pioneers <span className="text-cyan-500 font-medium">safe, quiet, and sustainable</span>
+              <br />
+              <span className="text-cyan-500 font-medium">all-electric</span> aircraft solutions.
+            </h2>
+          </div>
+
+          {/* Headlines */}
+          <div className="mb-8">
+            <h3 
+              className="text-slate-900 font-bold mb-4"
+              style={{
+                fontFamily: "'Poppins', system-ui, sans-serif",
+                fontSize: 'clamp(2rem, 4vw, 3rem)',
+                fontWeight: '700',
+                lineHeight: '1.1',
+                letterSpacing: '-0.02em',
+              }}
+            >
+              WE ARE THE FIRST
+            </h3>
+            <p 
+              className="text-cyan-500 mb-6"
+              style={{
+                fontFamily: "'Poppins', system-ui, sans-serif",
+                fontSize: 'clamp(1.5rem, 3vw, 2.25rem)',
+                fontWeight: '400',
+                lineHeight: '1.2',
+              }}
+            >
+              To bring electric air taxis to India
+            </p>
+            <p className="text-slate-500 text-lg leading-relaxed">
+              Our AIRAVATH air taxis will be among the first internationally certified eVTOL aircraft operating in the region.
+            </p>
+          </div>
+
+          {/* Notably Quiet Card */}
+          <div className="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm">
+            <div className="flex items-start gap-5">
+              <div className="w-14 h-14 rounded-xl flex items-center justify-center flex-shrink-0 bg-slate-100">
+                <svg className="w-7 h-7 text-cyan-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M9.348 14.651a3.75 3.75 0 010-5.303m5.304 0a3.75 3.75 0 010 5.303m-7.425 2.122a6.75 6.75 0 010-9.546m9.546 0a6.75 6.75 0 010 9.546M5.106 18.894c-3.808-3.808-3.808-9.98 0-13.789m13.788 0c3.808 3.808 3.808 9.981 0 13.79M12 12h.008v.007H12V12zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />
+                </svg>
+              </div>
+              <div>
+                <h4 className="font-semibold text-lg mb-2 text-slate-900">
+                  Notably quiet
+                </h4>
+                <p className="text-sm leading-relaxed text-slate-500">
+                  In contrast to helicopters, our quiet pioneer seamlessly blends into the cityscape – inaudible at a 170-meter distance within such an environment.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Desktop: Original Layout */}
+        <div className="hidden md:block max-w-7xl mx-auto px-6 sm:px-8 lg:px-16 py-12">
+          
+          {/* Top Section - Tagline */}
+          <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-6 lg:gap-12 mb-12 lg:mb-16">
+            <div className="lg:w-2/3">
+              <h2 
+                className="text-slate-600"
+                style={{
+                  fontFamily: "'Poppins', system-ui, sans-serif",
+                  fontSize: 'clamp(1.75rem, 3.5vw, 2.5rem)',
+                  fontWeight: '400',
+                  lineHeight: '1.3',
+                  letterSpacing: '-0.01em',
+                }}
+              >
+                AIRAVATH pioneers <span className="text-cyan-500 font-medium">safe, quiet, and sustainable</span>
+                <br />
+                <span className="text-cyan-500 font-medium">all-electric</span> aircraft solutions.
+              </h2>
+            </div>
+          </div>
+
+          {/* Main Content - Two Column Layout */}
+          <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-8 lg:gap-12">
+            
+            {/* Left Column - Headlines */}
+            <div className="lg:w-2/5 lg:sticky lg:top-32">
+              <h3 
+                className="text-slate-900 font-bold mb-4"
+                style={{
+                  fontFamily: "'Poppins', system-ui, sans-serif",
+                  fontSize: 'clamp(2rem, 4vw, 3rem)',
+                  fontWeight: '700',
+                  lineHeight: '1.1',
+                  letterSpacing: '-0.02em',
+                }}
+              >
+                WE ARE THE FIRST
+              </h3>
+              <p 
+                className="text-cyan-500 mb-6"
+                style={{
+                  fontFamily: "'Poppins', system-ui, sans-serif",
+                  fontSize: 'clamp(1.5rem, 3vw, 2.25rem)',
+                  fontWeight: '400',
+                  lineHeight: '1.2',
+                }}
+              >
+                To bring electric air taxis to India
+              </p>
+              <p className="text-slate-500 text-lg leading-relaxed max-w-md">
+                Our AIRAVATH air taxis will be among the first internationally certified eVTOL aircraft operating in the region.
+              </p>
+            </div>
+
+            {/* Right Column - Feature Cards with Auto-Cycling Animation */}
+            <div ref={featureCardsContainerRef} className="lg:w-1/2 space-y-6">
+              
+              {/* Feature Card 1 - Safety */}
+              <div 
+                ref={featureCard1Ref}
+                className={`group rounded-2xl p-6 lg:p-8 transition-all duration-700 ease-in-out cursor-pointer ${
+                  activeFeatureCard === 0 
+                    ? 'bg-gradient-to-r from-slate-800 to-slate-900 shadow-2xl shadow-slate-900/30 scale-[1.02]' 
+                    : 'bg-white border border-slate-200 hover:shadow-xl hover:border-slate-300'
+                }`}
+                onClick={() => setActiveFeatureCard(0)}
+              >
+                <div className="flex items-start gap-5">
+                  <div className={`w-14 h-14 rounded-xl flex items-center justify-center flex-shrink-0 transition-all duration-500 ${
+                    activeFeatureCard === 0 
+                      ? 'bg-slate-700/50 scale-110' 
+                      : 'bg-slate-100'
+                  }`}>
+                    <svg className={`w-7 h-7 transition-colors duration-500 ${activeFeatureCard === 0 ? 'text-cyan-400' : 'text-cyan-600'}`} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z" />
+                    </svg>
+                  </div>
+                  <div>
+                    <h4 className={`font-semibold text-lg mb-2 transition-colors duration-500 ${activeFeatureCard === 0 ? 'text-cyan-400' : 'text-slate-900'}`}>
+                      As safe as a commercial aircraft
+                    </h4>
+                    <p className={`text-sm leading-relaxed transition-colors duration-500 ${activeFeatureCard === 0 ? 'text-slate-400' : 'text-slate-500'}`}>
+                      On the path to certification with DGCA (Directorate General of Civil Aviation), our aircraft is designed to meet the highest safety standards in the industry.
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Feature Card 2 - Zero Emissions */}
+              <div 
+                ref={featureCard2Ref}
+                className={`group rounded-2xl p-6 lg:p-8 transition-all duration-700 ease-in-out cursor-pointer ${
+                  activeFeatureCard === 1 
+                    ? 'bg-gradient-to-r from-slate-800 to-slate-900 shadow-2xl shadow-slate-900/30 scale-[1.02]' 
+                    : 'bg-white border border-slate-200 hover:shadow-xl hover:border-slate-300'
+                }`}
+                onClick={() => setActiveFeatureCard(1)}
+              >
+                <div className="flex items-start gap-5">
+                  <div className={`w-14 h-14 rounded-xl flex items-center justify-center flex-shrink-0 transition-all duration-500 ${
+                    activeFeatureCard === 1 
+                      ? 'bg-slate-700/50 scale-110' 
+                      : 'bg-slate-100'
+                  }`}>
+                    <svg className={`w-7 h-7 transition-colors duration-500 ${activeFeatureCard === 1 ? 'text-cyan-400' : 'text-cyan-600'}`} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M12 3v2.25m6.364.386l-1.591 1.591M21 12h-2.25m-.386 6.364l-1.591-1.591M12 18.75V21m-4.773-4.227l-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z" />
+                    </svg>
+                  </div>
+                  <div>
+                    <h4 className={`font-semibold text-lg mb-2 transition-colors duration-500 ${activeFeatureCard === 1 ? 'text-cyan-400' : 'text-slate-900'}`}>
+                      Zero in-flight emissions
+                    </h4>
+                    <p className={`text-sm leading-relaxed transition-colors duration-500 ${activeFeatureCard === 1 ? 'text-slate-400' : 'text-slate-500'}`}>
+                      Powered by battery technology, it emits zero CO2, nitric oxide (NOx), and other harmful pollutants during flight – making flying more sustainable.
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Feature Card 3 - Quiet */}
+              <div 
+                ref={featureCard3Ref}
+                className={`group rounded-2xl p-6 lg:p-8 transition-all duration-700 ease-in-out cursor-pointer ${
+                  activeFeatureCard === 2 
+                    ? 'bg-gradient-to-r from-slate-800 to-slate-900 shadow-2xl shadow-slate-900/30 scale-[1.02]' 
+                    : 'bg-white border border-slate-200 hover:shadow-xl hover:border-slate-300'
+                }`}
+                onClick={() => setActiveFeatureCard(2)}
+              >
+                <div className="flex items-start gap-5">
+                  <div className={`w-14 h-14 rounded-xl flex items-center justify-center flex-shrink-0 transition-all duration-500 ${
+                    activeFeatureCard === 2 
+                      ? 'bg-slate-700/50 scale-110' 
+                      : 'bg-slate-100'
+                  }`}>
+                    <svg className={`w-7 h-7 transition-colors duration-500 ${activeFeatureCard === 2 ? 'text-cyan-400' : 'text-cyan-600'}`} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M9.348 14.651a3.75 3.75 0 010-5.303m5.304 0a3.75 3.75 0 010 5.303m-7.425 2.122a6.75 6.75 0 010-9.546m9.546 0a6.75 6.75 0 010 9.546M5.106 18.894c-3.808-3.808-3.808-9.98 0-13.789m13.788 0c3.808 3.808 3.808 9.981 0 13.79M12 12h.008v.007H12V12zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />
+                    </svg>
+                  </div>
+                  <div>
+                    <h4 className={`font-semibold text-lg mb-2 transition-colors duration-500 ${activeFeatureCard === 2 ? 'text-cyan-400' : 'text-slate-900'}`}>
+                      Notably quiet
+                    </h4>
+                    <p className={`text-sm leading-relaxed transition-colors duration-500 ${activeFeatureCard === 2 ? 'text-slate-400' : 'text-slate-500'}`}>
+                      In contrast to helicopters, our quiet pioneer seamlessly blends into the cityscape – inaudible at a 170-meter distance within such an environment.
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+          
+          {/* Progress Indicators */}
+          <div className="flex justify-center items-center gap-3 mt-12">
+            {[0, 1, 2].map((index) => (
+              <button
+                key={index}
+                onClick={() => setActiveFeatureCard(index)}
+                className={`transition-all duration-500 rounded-full ${
+                  activeFeatureCard === index 
+                    ? 'w-8 h-2 bg-cyan-500' 
+                    : 'w-2 h-2 bg-slate-300 hover:bg-slate-400'
+                }`}
+                aria-label={`Go to feature ${index + 1}`}
+              />
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Featured Aircraft Image Section */}
+      <section className="!hidden md:!block relative bg-white py-10 lg:py-14">
+        <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-16">
+          {/* Featured Image with Rounded Top Corners Only */}
+          <div className="relative overflow-hidden rounded-t-3xl bg-white">
+            <img 
+              src="/about-airavath.png"
+              alt="AIRAVATH Aircraft Wireframe Design"
+              className="w-full h-[300px] sm:h-[380px] lg:h-[450px] xl:h-[500px] object-contain"
             />
           </div>
         </div>
       </section>
 
-      {/* Air Taxi Section 2 - Future Vision (hidden on mobile) */}
-      {!isMobile && (
-      <section 
-        id="air-taxi"
-        className="relative min-h-screen flex items-end justify-end overflow-hidden bg-black"
-        style={{
-          backgroundImage: `url('/future-vision-bg.png')`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          backgroundRepeat: 'no-repeat'
-        }}
-      >
-        {/* Background overlay for text readability */}
-        <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/50 to-black/70 pointer-events-none"></div>
-        </section>
-      )}
-
-      {/* ABOUT SECTION - What We Believe */}
+      {/* Newsroom Style Section - White Background */}
       <section 
         id="beliefs"
-        className="relative bg-black py-12 px-4"
+        className="relative bg-white py-6 md:py-12 lg:py-16 -mt-32 md:mt-0"
       >
-        <div ref={believeRef} className="bg-black py-8 px-4">
-          <div className="max-w-7xl mx-auto">
-            <div className="text-center mb-10">
-              <h2 className="believe-title text-white text-4xl font-bold mb-4 uppercase tracking-wider">
-                What We Believe
-              </h2>
-              <div className="believe-line w-32 h-0.5 bg-white mx-auto"></div>
+        <div ref={believeRef} className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-16">
+          {/* Section Header - Left Aligned */}
+          <div className="mb-10 lg:mb-12">
+            <h2 
+              className="believe-title text-slate-900 font-bold mb-4"
+              style={{
+                fontFamily: "'Poppins', system-ui, sans-serif",
+                fontSize: 'clamp(2rem, 5vw, 3rem)',
+                fontWeight: '700',
+                lineHeight: '1.1',
+                letterSpacing: '-0.02em',
+              }}
+            >
+              NEWSROOM
+            </h2>
+            <p 
+              className="believe-line text-slate-600"
+              style={{
+                fontFamily: "'Poppins', system-ui, sans-serif",
+                fontSize: 'clamp(1.5rem, 3.5vw, 2.5rem)',
+                fontWeight: '400',
+                lineHeight: '1.3',
+              }}
+            >
+              Keep up with the latest AIRAVATH news
+            </p>
+          </div>
+
+          {/* Newsroom Link - Right Aligned */}
+          <div className="flex justify-end mb-8">
+            <a 
+              href="/contact" 
+              className="flex items-center gap-2 text-slate-800 font-medium hover:text-cyan-600 transition-colors duration-300 group"
+              style={{ fontFamily: "'Poppins', system-ui, sans-serif" }}
+            >
+              <span className="tracking-wide">NEWSROOM</span>
+              <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform duration-300" />
+            </a>
+          </div>
+
+          {/* News Cards Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-10">
+            
+            {/* News Card 1 */}
+            <div className="believe-card group cursor-pointer">
+              {/* Image */}
+              <div className="relative overflow-hidden rounded-2xl mb-6">
+                <img 
+                  src="/airtaxi.jpg"
+                  alt="AIRAVATH Air Taxi"
+                  className="w-full h-[240px] object-cover group-hover:scale-105 transition-transform duration-500"
+                />
+              </div>
+              {/* Date */}
+              <p 
+                className="text-slate-500 text-sm font-medium mb-3 uppercase tracking-wider"
+                style={{ letterSpacing: '0.05em' }}
+              >
+                December 5, 2025
+              </p>
+              {/* Title */}
+              <h3 
+                className="text-slate-900 font-semibold text-lg leading-snug group-hover:text-cyan-600 transition-colors duration-300"
+                style={{ fontFamily: "'Poppins', system-ui, sans-serif" }}
+              >
+                AIRAVATH Announces Strategic Partnership for eVTOL Operations in India
+              </h3>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              
-              {/* Card 1 - Time & Access */}
-              <div className="believe-card group bg-airavata-gray/20 backdrop-blur-sm border border-airavata-gray rounded-lg p-6 hover:border-white/50 hover:bg-white/10 hover:shadow-2xl hover:shadow-white/20 transition-all duration-500 hover:scale-105 cursor-pointer">
-                <h3 className="text-2xl font-bold text-white mb-3 group-hover:text-white group-hover:scale-105 transition-all duration-300 uppercase tracking-wide">
-                  Time & Access
-                </h3>
-                <p className="text-lg text-white/90 mb-6 font-semibold">
-                  Time Should Be Respected
-                </p>
-                
-                <div className="space-y-3">
-                  <div className="flex items-start text-white/80 group-hover:text-white/90 transition-colors duration-300">
-                    <div className="w-2 h-2 bg-white rounded-full mr-3 mt-2 flex-shrink-0 group-hover:bg-white group-hover:scale-125 transition-all duration-300"></div>
-                    <span className="text-sm leading-relaxed">Air mobility should save time, not just cost more.</span>
-                  </div>
-                  <div className="flex items-start text-white/80 group-hover:text-white/90 transition-colors duration-300">
-                    <div className="w-2 h-2 bg-white rounded-full mr-3 mt-2 flex-shrink-0 group-hover:bg-white group-hover:scale-125 transition-all duration-300"></div>
-                    <span className="text-sm leading-relaxed">Emergency access should never be delayed.</span>
-                  </div>
-                  <div className="flex items-start text-white/80 group-hover:text-white/90 transition-colors duration-300">
-                    <div className="w-2 h-2 bg-white rounded-full mr-3 mt-2 flex-shrink-0 group-hover:bg-white group-hover:scale-125 transition-all duration-300"></div>
-                    <span className="text-sm leading-relaxed">The faster we move, the more lives we empower.</span>
-                  </div>
-                </div>
+            {/* News Card 2 */}
+            <div className="believe-card group cursor-pointer">
+              {/* Image */}
+              <div className="relative overflow-hidden rounded-2xl mb-6">
+                <img 
+                  src="/about-airavath.png"
+                  alt="AIRAVATH Aircraft Design"
+                  className="w-full h-[240px] object-cover bg-sky-100 group-hover:scale-105 transition-transform duration-500"
+                />
               </div>
-
-              {/* Card 2 - Vision & Future */}
-              <div className="believe-card group bg-airavata-gray/20 backdrop-blur-sm border border-airavata-gray rounded-lg p-6 hover:border-white/50 hover:bg-white/10 hover:shadow-2xl hover:shadow-white/20 transition-all duration-500 hover:scale-105 cursor-pointer">
-                <h3 className="text-2xl font-bold text-white mb-3 group-hover:text-white group-hover:scale-105 transition-all duration-300 uppercase tracking-wide">
-                  Vision & Future
-                </h3>
-                <p className="text-lg text-white/90 mb-6 font-semibold">
-                  The Sky Is Our Starting Point
-                </p>
-                
-                <div className="space-y-3">
-                  <div className="flex items-start text-white/80 group-hover:text-white/90 transition-colors duration-300">
-                    <div className="w-2 h-2 bg-white rounded-full mr-3 mt-2 flex-shrink-0 group-hover:bg-white group-hover:scale-125 transition-all duration-300"></div>
-                    <span className="text-sm leading-relaxed">The future of transport is above us.</span>
-                  </div>
-                  <div className="flex items-start text-white/80 group-hover:text-white/90 transition-colors duration-300">
-                    <div className="w-2 h-2 bg-white rounded-full mr-3 mt-2 flex-shrink-0 group-hover:bg-white group-hover:scale-125 transition-all duration-300"></div>
-                    <span className="text-sm leading-relaxed">Every rooftop can become a launchpad.</span>
-                  </div>
-                  <div className="flex items-start text-white/80 group-hover:text-white/90 transition-colors duration-300">
-                    <div className="w-2 h-2 bg-white rounded-full mr-3 mt-2 flex-shrink-0 group-hover:bg-white group-hover:scale-125 transition-all duration-300"></div>
-                    <span className="text-sm leading-relaxed">Cities must grow vertically — not just outward.</span>
-                  </div>
-                </div>
-              </div>
-
-              {/* Card 3 - Purpose & Equality */}
-              <div className="believe-card group bg-airavata-gray/20 backdrop-blur-sm border border-airavata-gray rounded-lg p-6 hover:border-white/50 hover:bg-white/10 hover:shadow-2xl hover:shadow-white/20 transition-all duration-500 hover:scale-105 cursor-pointer">
-                <h3 className="text-2xl font-bold text-white mb-3 group-hover:text-white group-hover:scale-105 transition-all duration-300 uppercase tracking-wide">
-                  Purpose & Equality
-                </h3>
-                <p className="text-lg text-white/90 mb-6 font-semibold">
-                  Mobility Is for Everyone
-                </p>
-                
-                <div className="space-y-3">
-                  <div className="flex items-start text-white/80 group-hover:text-white/90 transition-colors duration-300">
-                    <div className="w-2 h-2 bg-white rounded-full mr-3 mt-2 flex-shrink-0 group-hover:bg-white group-hover:scale-125 transition-all duration-300"></div>
-                    <span className="text-sm leading-relaxed">Flying shouldn't be a luxury.</span>
-                  </div>
-                  <div className="flex items-start text-white/80 group-hover:text-white/90 transition-colors duration-300">
-                    <div className="w-2 h-2 bg-white rounded-full mr-3 mt-2 flex-shrink-0 group-hover:bg-white group-hover:scale-125 transition-all duration-300"></div>
-                    <span className="text-sm leading-relaxed">It should be accessible, sustainable, and life-saving.</span>
-                  </div>
-                  <div className="flex items-start text-white/80 group-hover:text-white/90 transition-colors duration-300">
-                    <div className="w-2 h-2 bg-white rounded-full mr-3 mt-2 flex-shrink-0 group-hover:bg-white group-hover:scale-125 transition-all duration-300"></div>
-                    <span className="text-sm leading-relaxed">Our mission is built on purpose, not privilege.</span>
-                  </div>
-                </div>
-              </div>
-
+              {/* Date */}
+              <p 
+                className="text-slate-500 text-sm font-medium mb-3 uppercase tracking-wider"
+                style={{ letterSpacing: '0.05em' }}
+              >
+                November 20, 2025
+              </p>
+              {/* Title */}
+              <h3 
+                className="text-slate-900 font-semibold text-lg leading-snug group-hover:text-cyan-600 transition-colors duration-300"
+                style={{ fontFamily: "'Poppins', system-ui, sans-serif" }}
+              >
+                Pioneering Sustainable Air Mobility Technology for Urban Transportation
+              </h3>
             </div>
+
+            {/* News Card 3 */}
+            <div className="believe-card group cursor-pointer">
+              {/* Image */}
+              <div className="relative overflow-hidden rounded-2xl mb-6">
+                <img 
+                  src="/airtaxi 2s.jpg"
+                  alt="AIRAVATH Future Vision"
+                  className="w-full h-[240px] object-cover group-hover:scale-105 transition-transform duration-500"
+                />
+              </div>
+              {/* Date */}
+              <p 
+                className="text-slate-500 text-sm font-medium mb-3 uppercase tracking-wider"
+                style={{ letterSpacing: '0.05em' }}
+              >
+                October 15, 2025
+              </p>
+              {/* Title */}
+              <h3 
+                className="text-slate-900 font-semibold text-lg leading-snug group-hover:text-cyan-600 transition-colors duration-300"
+                style={{ fontFamily: "'Poppins', system-ui, sans-serif" }}
+              >
+                AIRAVATH Conducts First Electric Air Taxi Test Flight in Bangalore
+              </h3>
+            </div>
+
           </div>
         </div>
       </section>
 
-      {/* OBJECTIVES SECTION - Future Objectives Timeline */}
+      {/* 3D Roadmap Section */}
       <section 
         id="objectives"
-        className="relative min-h-screen bg-black py-12"
+        className="relative bg-white py-8 lg:py-10 overflow-hidden"
       >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          {/* Header */}
-          <div className="text-center mb-12">
-            <h1 
-              className="text-white mb-3"
-              style={{
-                fontFamily: 'Inter, system-ui, -apple-system, sans-serif',
-                fontSize: '2.5rem',
-                fontWeight: '700',
-                letterSpacing: '0.05em',
-                textTransform: 'uppercase',
-                textShadow: '0 4px 8px rgba(0,0,0,0.5)',
-                lineHeight: '1.1',
-              }}
-            >
-              Future <span className="text-white">Objectives</span>
-            </h1>
-            <p 
-              className="text-white/90 max-w-3xl mx-auto"
-              style={{
-                fontFamily: 'Inter, system-ui, -apple-system, sans-serif',
-                fontSize: '1rem',
-                fontWeight: '500',
-                letterSpacing: '0.06em',
-                textShadow: '0 2px 4px rgba(0,0,0,0.5)',
-                lineHeight: '1.4',
-                textTransform: 'uppercase',
-              }}
-            >
-              Roadmap to Vertical Freedom - Our journey to revolutionize urban mobility
+        <div className="relative max-w-7xl mx-auto px-6 sm:px-8 lg:px-16">
+          {/* Section Header */}
+          <div className="text-center mb-8 lg:mb-10">
+            <p className="text-slate-600 text-xl md:text-2xl max-w-2xl mx-auto">
+              From vision to reality—charting our path to revolutionize urban mobility.
             </p>
           </div>
+        </div>
           
-          {/* Timeline */}
-          <div ref={objectivesRef} className="relative">
-            {/* Timeline line */}
-            <div className="timeline-line absolute left-8 md:left-1/2 transform md:-translate-x-1/2 w-1 h-full bg-gradient-to-b from-white to-white/30 rounded-full" style={{ opacity: 1, visibility: 'visible' }}></div>
-            
-            <div className="space-y-16">
-              {[
-                {
-                  year: '2027',
-                  title: 'Pilot Program & Acquisition',
-                  description: '2 cities, services & emergency medical transport priority',
-                  icon: Calendar,
-                  details: [
-                    'Launch pilot operations in Andhra Pradesh & Telangana',
-                    'Acquire and deploy initial AirTaxi fleet',
-                    'Partner with hospitals and vertiports',
-                  ]
-                },
-                {
-                  year: '2027',
-                  title: 'Service Launch',
-                  description: 'Andhra Pradesh & Telangana — full commercial AirTaxi operations begin.',
-                  icon: MapPin,
-                  details: [
-                    'Emergency medical and premium travel routes',
-                    'Integration with vertiport network',
-                    '24/7 service availability'
-                  ]
-                },
-                {
-                  year: '2028',
-                  title: 'Nationwide Expansion',
-                  description: 'Pan-India rollout of AirTaxi services.',
-                  icon: Plane,
-                  details: [
-                    'Operations in all major cities',
-                    'Expanded fleet for high-demand routes',
-                    'Nationwide vertiport connectivity',
-                  ]
-                },
-                {
-                  year: '2029',
-                  title: 'Rooftop Revolution',
-                  description: 'Home helipads and integrated healthcare ecosystem',
-                  icon: Building,
-                  details: [
-                    'Residential helipad installations',
-                    'Direct home-to-hospital transport',
-                    'Integrated health monitoring',
-                    'Smart city infrastructure'
-                  ]
-                }
-              ].map((milestone, index) => (
-                <div key={milestone.year + index} className={`timeline-item relative flex items-center ${
-                  index % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'
-                }`}>
-                  {/* Timeline dot */}
-                  <div className="timeline-dot absolute left-8 md:left-1/2 transform -translate-x-1/2 w-4 h-4 bg-white rounded-full border-4 border-black z-10" style={{ opacity: 1, visibility: 'visible' }}></div>
-                  
-                  {/* Content */}
-                  <div className={`timeline-content w-full md:w-5/12 ml-16 md:ml-0 ${
-                    index % 2 === 0 ? 'md:pr-16' : 'md:pl-16'
-                  }`} style={{ opacity: 1, visibility: 'visible' }}>
-                    <div className="group bg-airavata-gray/20 backdrop-blur-sm border border-airavata-gray rounded-lg p-4 hover:border-white/50 hover:bg-white/10 hover:shadow-2xl hover:shadow-white/20 transition-all duration-500 hover:scale-105 cursor-pointer">
-                      <div className="flex items-center mb-3">
-                        <div className="w-10 h-10 bg-gradient-to-br from-white/20 to-white/40 rounded-lg flex items-center justify-center mr-3 group-hover:from-white/40 group-hover:to-white/60 group-hover:scale-110 transition-all duration-300">
-                          <milestone.icon className="milestone-icon text-white group-hover:scale-125 transition-transform duration-300" size={20} />
-                        </div>
-                        <div className="text-2xl font-orbitron font-bold text-white group-hover:text-white group-hover:scale-105 transition-all duration-300">
-                          {milestone.year}
-                        </div>
-                      </div>
-                      
-                      <h3 className="text-lg font-semibold text-white mb-2 font-orbitron group-hover:text-white/90 transition-colors duration-300">
-                        {milestone.title}
-                      </h3>
-                      
-                      <p className="text-white mb-4 text-sm group-hover:text-white/80 transition-colors duration-300">
-                        {milestone.description}
-                      </p>
-                      
-                      <ul className="space-y-1">
-                        {milestone.details.map((detail, idx) => (
-                          <li key={idx} className="detail-item flex items-center text-xs text-white group-hover:text-white/80 transition-colors duration-300">
-                            <div className="w-1.5 h-1.5 bg-white rounded-full mr-2 flex-shrink-0 group-hover:bg-white group-hover:scale-125 transition-all duration-300"></div>
-                            {detail}
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
+        {/* 3D Road Visualization - Using Image - Full Width */}
+        <div ref={objectivesRef} className="relative w-full">
+          {/* Desktop & Tablet: Road Image - Full Width Edge to Edge */}
+          <div className="hidden md:block relative w-full">
+            <img 
+              src="/roadmap-road.png" 
+              alt="Roadmap Journey"
+              className="w-full h-auto"
+            />
           </div>
 
-          {/* 2029 Vision */}
-          <div className="mt-24 text-center">
-            <div className="bg-gradient-to-br from-airavata-blue/10 via-airavata-gray/20 to-airavata-blue/5 rounded-lg p-8 border border-airavata-blue/30">
-              <h2 className="text-3xl sm:text-4xl font-orbitron font-bold text-white mb-6">
-                2029 Vision: The Connected Sky
-              </h2>
-              <p className="text-lg sm:text-xl text-white leading-relaxed max-w-4xl mx-auto mb-8">
-                By 2029, AIRAVATH will have transformed urban landscapes with integrated 
-                helipad infrastructure on residential buildings, hospitals, and corporate offices. 
-                Our vision: a seamless healthcare ecosystem where emergency response times 
-                are measured in minutes, not hours.
-              </p>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-12">
-                <div className="group bg-airavata-black/50 rounded-lg p-4 border border-airavata-gray hover:border-white/50 hover:bg-white/10 hover:shadow-2xl hover:shadow-white/20 transition-all duration-500 hover:scale-105 cursor-pointer">
-                  <div className="text-xl font-bold text-white mb-1 group-hover:scale-110 transition-transform duration-300">10,000+</div>
-                  <div className="text-white text-sm group-hover:text-white/80 transition-colors duration-300">Rooftop Helipads</div>
+          {/* Mobile: Roadmap Image */}
+          <div className="md:hidden px-6 sm:px-8">
+            <img 
+              src="/roadmap-mobile.jpg" 
+              alt="AIRAVATH Roadmap"
+              className="w-full h-auto"
+            />
+          </div>
+        </div>
+      </section>
+
+      {/* Slideshow Section with Custom Cursor */}
+      <section className="relative bg-white">
+        <div className="w-full">
+          <div 
+            className="relative w-full overflow-hidden"
+            style={{ 
+              backgroundColor: '#0B1B3D',
+              aspectRatio: '16 / 9'
+            }}
+          >
+            <div className="absolute inset-0 flex items-center justify-center px-8 lg:px-16">
+              <div className="w-full max-w-4xl">
+                {/* Slideshow Container */}
+                <div
+                  ref={slideshowRef}
+                  className="relative aspect-video rounded-t-2xl overflow-hidden cursor-none"
+                  onClick={handleSlideshowClick}
+                  onMouseMove={handleMouseMove}
+                  onMouseLeave={handleMouseLeave}
+                  style={{ 
+                    cursor: 'none',
+                    boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.5), 0 0 60px rgba(6, 182, 212, 0.3)'
+                  }}
+                >
+                  {/* Slideshow Images */}
+                  {slideshowImages.map((image, index) => (
+                    <div
+                      key={index}
+                      className={`absolute inset-0 transition-opacity duration-500 ${
+                        index === currentSlide ? 'opacity-100' : 'opacity-0'
+                      }`}
+                    >
+                      <img
+                        src={image}
+                        alt={`Slide ${index + 1}`}
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
+                  ))}
+
+                  {/* Custom Cursor */}
+                  {customCursor.visible && (
+                    <div
+                      className="absolute w-20 h-20 rounded-full bg-cyan-400 flex items-center justify-center pointer-events-none transition-transform duration-150 ease-out z-50"
+                      style={{
+                        left: `${customCursor.x}px`,
+                        top: `${customCursor.y}px`,
+                        transform: 'translate(-50%, -50%)',
+                        opacity: 0.9,
+                      }}
+                    >
+                      <ArrowRight className="text-white" size={32} />
+                    </div>
+                  )}
                 </div>
-                <div className="group bg-airavata-black/50 rounded-lg p-4 border border-airavata-gray hover:border-white/50 hover:bg-white/10 hover:shadow-2xl hover:shadow-white/20 transition-all duration-500 hover:scale-105 cursor-pointer">
-                  <div className="text-xl font-bold text-white mb-1 group-hover:scale-110 transition-transform duration-300">50</div>
-                  <div className="text-white text-sm group-hover:text-white/80 transition-colors duration-300">Global Cities</div>
-                </div>
-                <div className="group bg-airavata-black/50 rounded-lg p-4 border border-airavata-gray hover:border-white/50 hover:bg-white/10 hover:shadow-2xl hover:shadow-white/20 transition-all duration-500 hover:scale-105 cursor-pointer">
-                  <div className="text-xl font-bold text-white mb-1 group-hover:scale-110 transition-transform duration-300">5 Min</div>
-                  <div className="text-white text-sm group-hover:text-white/80 transition-colors duration-300">Average Response Time</div>
+
+                {/* Slide Indicators */}
+                <div className="flex justify-center gap-3 mt-8">
+                  {slideshowImages.map((_, index) => (
+                    <button
+                      key={index}
+                      onClick={() => setCurrentSlide(index)}
+                      className={`transition-all duration-300 rounded-full ${
+                        index === currentSlide
+                          ? 'w-8 h-2 bg-cyan-400'
+                          : 'w-2 h-2 bg-cyan-400/30 hover:bg-cyan-400/50'
+                      }`}
+                      aria-label={`Go to slide ${index + 1}`}
+                    />
+                  ))}
                 </div>
               </div>
             </div>
@@ -792,170 +1186,157 @@ const Home = () => {
         </div>
       </section>
 
-      {/* CONTACT SECTION */}
+      {/* Premium Contact Section */}
       <section 
         id="contact"
-        className="relative min-h-screen bg-black"
-        style={{
-          backgroundImage: `url('./contact airtaxi.jpg')`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          backgroundRepeat: 'no-repeat'
-        }}
+        className="relative min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 pt-32 md:pt-16 lg:pt-16 pb-12 lg:pb-16 overflow-hidden"
       >
-        <div className="absolute inset-0 bg-black/40 pointer-events-none"></div>
+        {/* Background Decorative Elements */}
+        <div className="absolute top-0 left-0 w-96 h-96 bg-cyan-500/5 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-0 right-0 w-80 h-80 bg-cyan-400/5 rounded-full blur-3xl"></div>
         
-        <div className="relative z-10 max-w-lg" style={{ marginLeft: '2vw', paddingTop: '5rem' }}>
-          <div ref={contactHeaderRef} className="px-4 pb-4">
-            <h1 className="text-3xl font-bold text-white mb-2 uppercase">
-              GET IN TOUCH?
-            </h1>
-            <p className="text-white/80 mb-6 text-sm">
-              Ready to revolutionize your mobility? Get in touch with us.
-            </p>
-            
-            <form onSubmit={handleSubmit} className="space-y-6">
-              <div>
-                <label htmlFor="hero-name" className="block text-sm font-medium text-white mb-2">
-                  Name
-                </label>
-                <Input
-                  id="hero-name"
-                  name="name"
-                  type="text"
-                  required
-                  value={formData.name}
-                  onChange={handleInputChange}
-                  className="bg-transparent border-2 border-white text-white placeholder-white focus:border-white focus:ring-white/20 h-12"
-                  placeholder="Your full name"
-                />
-              </div>
+        <div className="relative z-10 max-w-7xl mx-auto px-6 sm:px-8 lg:px-16">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-14">
+            {/* Left Side - Text Content */}
+            <div ref={contactHeaderRef}>
+              <p 
+                className="text-cyan-400 uppercase tracking-widest text-sm font-medium mb-4"
+                style={{ letterSpacing: '0.2em' }}
+              >
+                Contact Us
+              </p>
+              <h2 
+                className="text-white font-bold mb-6"
+                style={{
+                  fontFamily: "'Poppins', system-ui, sans-serif",
+                  fontSize: 'clamp(1.5rem, 5vw, 3.5rem)',
+                  fontWeight: '700',
+                  lineHeight: '1.1',
+                  letterSpacing: '-0.02em',
+                }}
+              >
+                Let's shape the future<br />
+                <span className="text-cyan-400">together.</span>
+              </h2>
+              <p className="hidden md:block text-slate-400 text-lg mb-10 leading-relaxed">
+                Ready to revolutionize your mobility experience? Get in touch with our team and discover how AIRAVATH can transform your journey.
+              </p>
 
-              <div>
-                <label htmlFor="hero-email" className="block text-sm font-medium text-white mb-2">
-                  Email
-                </label>
-                <Input
-                  id="hero-email"
-                  name="email"
-                  type="email"
-                  required
-                  value={formData.email}
-                  onChange={handleInputChange}
-                  className="bg-transparent border-2 border-white text-white placeholder-white focus:border-white focus:ring-white/20 h-12"
-                  placeholder="your.email@example.com"
-                />
-              </div>
+              {/* Contact Info Cards */}
+              <div className="space-y-6">
+                <div className="flex items-center gap-4 p-4 bg-white/5 rounded-xl border border-white/10 hover:border-cyan-500/30 transition-all duration-300 group">
+                  <div className="w-12 h-12 bg-gradient-to-br from-cyan-500/20 to-cyan-600/20 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                    <Phone className="w-5 h-5 text-cyan-400" />
+                  </div>
+                  <div>
+                    <p className="text-slate-500 text-sm">Phone</p>
+                    <a href="tel:+13213899564" className="text-white font-medium hover:text-cyan-400 transition-colors">
+                      +1 (321) 389-9564
+                    </a>
+                  </div>
+                </div>
 
-              <div>
-                <label htmlFor="hero-message" className="block text-sm font-medium text-white mb-2">
-                  Message
-                </label>
-                <Textarea
-                  id="hero-message"
-                  name="message"
-                  required
-                  rows={4}
-                  value={formData.message}
-                  onChange={handleInputChange}
-                  className="bg-transparent border-2 border-white text-white placeholder-white focus:border-white focus:ring-white/20 resize-none"
-                  placeholder="Tell us about your interest in AIRAVATH..."
-                />
+                <div className="flex items-center gap-4 p-4 bg-white/5 rounded-xl border border-white/10 hover:border-cyan-500/30 transition-all duration-300 group">
+                  <div className="w-12 h-12 bg-gradient-to-br from-cyan-500/20 to-cyan-600/20 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                    <Mail className="w-5 h-5 text-cyan-400" />
+                  </div>
+                  <div>
+                    <p className="text-slate-500 text-sm">Email</p>
+                    <a href="mailto:pradyaviation@gmail.com" className="text-white font-medium hover:text-cyan-400 transition-colors">
+                      pradyaviation@gmail.com
+                    </a>
+                  </div>
+                </div>
               </div>
+            </div>
 
-              <div className="flex justify-center">
+            {/* Right Side - Contact Form */}
+            <div className="bg-white rounded-3xl p-8 lg:p-10 shadow-2xl">
+              <h3 className="text-2xl font-semibold text-slate-900 mb-2">
+                Send us a message
+              </h3>
+              <p className="text-slate-500 mb-8">
+                We'll get back to you within 24 hours.
+              </p>
+              
+              <form onSubmit={handleSubmit} className="space-y-6">
+                <div>
+                  <label htmlFor="hero-name" className="block text-sm font-medium text-slate-700 mb-2">
+                    Full Name
+                  </label>
+                  <Input
+                    id="hero-name"
+                    name="name"
+                    type="text"
+                    required
+                    value={formData.name}
+                    onChange={handleInputChange}
+                    className="w-full bg-slate-50 border border-slate-200 text-slate-900 placeholder-slate-400 focus:border-cyan-500 focus:ring-cyan-500/20 h-12 rounded-xl"
+                    placeholder="Enter your name"
+                  />
+                </div>
+
+                <div>
+                  <label htmlFor="hero-email" className="block text-sm font-medium text-slate-700 mb-2">
+                    Email Address
+                  </label>
+                  <Input
+                    id="hero-email"
+                    name="email"
+                    type="email"
+                    required
+                    value={formData.email}
+                    onChange={handleInputChange}
+                    className="w-full bg-slate-50 border border-slate-200 text-slate-900 placeholder-slate-400 focus:border-cyan-500 focus:ring-cyan-500/20 h-12 rounded-xl"
+                    placeholder="email@example.com"
+                  />
+                </div>
+
+                <div>
+                  <label htmlFor="hero-message" className="block text-sm font-medium text-slate-700 mb-2">
+                    Your Message
+                  </label>
+                  <Textarea
+                    id="hero-message"
+                    name="message"
+                    required
+                    rows={4}
+                    value={formData.message}
+                    onChange={handleInputChange}
+                    className="w-full bg-slate-50 border border-slate-200 text-slate-900 placeholder-slate-400 focus:border-cyan-500 focus:ring-cyan-500/20 resize-none rounded-xl"
+                    placeholder="Tell us about your interest in AIRAVATH..."
+                  />
+                </div>
+
                 <Button
                   type="submit"
                   disabled={isSubmitting}
-                  className="relative overflow-hidden bg-transparent border-2 border-white text-white font-semibold py-2 px-8 transition-all duration-300 disabled:opacity-50 h-10 hover:text-black group rounded-none"
+                  className="w-full bg-gradient-to-r from-cyan-500 to-cyan-600 text-white font-semibold py-3 px-8 rounded-xl hover:from-cyan-600 hover:to-cyan-700 transition-all duration-300 disabled:opacity-50 h-12 shadow-lg shadow-cyan-500/25 hover:shadow-xl hover:shadow-cyan-500/30"
                 >
-                  <span className="absolute inset-0 bg-white transform -translate-x-full group-hover:translate-x-0 transition-transform duration-500 ease-out"></span>
-                  <span className="relative z-10 flex items-center justify-center">
-                    {isSubmitting ? (
-                      "Sending..."
-                    ) : (
-                      <>
-                        <Send size={18} className="mr-2" />
-                        Send Message
-                      </>
-                    )}
-                  </span>
+                  {isSubmitting ? (
+                    "Sending..."
+                  ) : (
+                    <span className="flex items-center justify-center gap-2">
+                      <Send size={18} />
+                      Send Message
+                    </span>
+                  )}
                 </Button>
-              </div>
-            </form>
-          </div>
-        </div>
-      </section>
-
-      {/* CONTACT INFO SECTION */}
-      <section 
-        id="contact-info"
-        className="relative min-h-screen bg-black py-20"
-      >
-        <div ref={contactFormRef} className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-white mb-5 uppercase tracking-wider">
-              GET IN TOUCH
-            </h2>
-            <div className="w-20 h-0.5 bg-white mx-auto mb-6"></div>
-            <p className="text-airavata-light-gray text-base max-w-2xl mx-auto">
-              We'd love to hear from you. Reach out to us through any of the following channels.
-            </p>
-          </div>
-
-          {/* Contact Information - Horizontal Layout */}
-          <div className="max-w-4xl mx-auto">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-16">
-              {/* Phone */}
-              <div className="contact-item text-center group">
-                <div className="inline-block mb-6 transition-transform duration-300 group-hover:scale-110">
-                  <div className="w-20 h-20 rounded-full flex items-center justify-center relative overflow-hidden">
-                    <div className="absolute inset-0 bg-white/5 group-hover:bg-white/10 transition-all duration-300"></div>
-                    <Phone className="text-white relative z-10" size={36} strokeWidth={1.5} />
-                  </div>
-                </div>
-                <h3 className="text-2xl font-bold text-white mb-4 uppercase tracking-wider">
-                  Phone
-                </h3>
-                <a 
-                  href="tel:+13213899564" 
-                  className="text-xl text-airavata-light-gray hover:text-white transition-colors duration-200 font-light block mb-2"
-                >
-                  +1 (321) 389-9564
-                </a>
-                <p className="text-sm text-airavata-light-gray/60 uppercase tracking-wide">
-                  Available during business hours
-                </p>
-              </div>
-
-              {/* Email */}
-              <div className="contact-item text-center group">
-                <div className="inline-block mb-6 transition-transform duration-300 group-hover:scale-110">
-                  <div className="w-20 h-20 rounded-full flex items-center justify-center relative overflow-hidden">
-                    <div className="absolute inset-0 bg-white/5 group-hover:bg-white/10 transition-all duration-300"></div>
-                    <Mail className="text-white relative z-10" size={36} strokeWidth={1.5} />
-                  </div>
-                </div>
-                <h3 className="text-2xl font-bold text-white mb-4 uppercase tracking-wider">
-                  Email
-                </h3>
-                <a 
-                  href="mailto:pradyaviation@gmail.com" 
-                  className="text-lg text-airavata-light-gray hover:text-white transition-colors duration-200 font-light block mb-2 break-all"
-                >
-                  pradyaviation@gmail.com
-                </a>
-                <p className="text-sm text-airavata-light-gray/60 uppercase tracking-wide">
-                  We'll respond within 24 hours
-                </p>
-              </div>
+              </form>
             </div>
           </div>
         </div>
       </section>
+
+      {/* Footer Section */}
+      <Footer />
+
+      </div>{/* End Scrollable Content Container */}
+
     </div>
     </>
   );
 };
 
 export default Home;
+
